@@ -1,0 +1,47 @@
+Functions:
+Auth:
+- User Signs In ✓
+- User Signs up ✓
+- User Signs out (front)
+
+List:
+- User sees Lists they are attached to ✓
+- User sees Lists that are pendning ✓
+- User can filter a list by name or type (front)
+- User can open a list ✓
+- User can Create a List ✓
+- User can remove themselves from a list, everyone else is notied ✓
+- User can open list settings (front)
+- User can open list users ✓
+
+List Creation:
+- User adds a name for the list ✓
+- User selects a list type (Finance, Todo, Simple, Gift) ✓
+
+List Settings:
+- User can change a lists name ✓
+- User can change a list type (Finance, Todo, Simple, Gift) ✓
+
+List Users
+- Shows list users ✓
+- Search for users to add to a list ✓
+- Invite a user to a list and a notification for recieving user ✓
+- Approve an invite and everyone else in the list gets a noti ✓
+- Decline an invite ✓
+- Remove a user from a list if they own, everyone else is notied ✓
+
+List open:
+- User can make a new item ✓
+- User can move item to trash ✓
+- User can remove item from trash ✓
+- User can check an item completed (For todo, simple, gift) ✓
+- Uncheck an item as complete ✓
+- User can edit a list item ✓
+
+Notifications:
+- User sees notifications of being invited to lists ✓
+- User sees notifications of another user approve of being added 
+- User sees notifications of user removing themselves from list 
+- Hover on a noti sets it as read ✓
+
+
