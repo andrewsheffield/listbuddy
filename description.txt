@@ -2,12 +2,11 @@ Functions:
 Auth:
 - User Signs In ✓
 - User Signs up ✓
-- User Signs out (front)
+- User Signs out (Back-end)
 
 List:
 - User sees Lists they are attached to ✓
-- User sees Lists that are pendning ✓
-- User can filter a list by name or type (front)
+- User sees Lists that are pending ✓
 - User can open a list ✓
 - User can Create a List ✓
 - User can remove themselves from a list, everyone else is notied ✓
@@ -20,7 +19,7 @@ List Creation:
 
 List Settings:
 - User can change a lists name ✓
-- User can change a list type (Finance, Todo, Simple, Gift) ✓
+- User can see list creation datetime ✓
 
 List Users
 - Shows list users ✓
@@ -36,12 +35,14 @@ List open:
 - User can remove item from trash ✓
 - User can check an item completed (For todo, simple, gift) ✓
 - Uncheck an item as complete ✓
-- User can edit a list item ✓
 
 Notifications:
 - User sees notifications of being invited to lists ✓
-- User sees notifications of another user approve of being added 
-- User sees notifications of user removing themselves from list 
+- User sees notifications of another user approve of being added ✓
+- User sees notifications of user removing themselves from list ✓
 - Hover on a noti sets it as read ✓
+
+Loading:
+- User sees a loading wheel when something is being sent via restful api (Front)
 
 
