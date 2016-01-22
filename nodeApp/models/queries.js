@@ -1,12 +1,12 @@
 var queries = {};
 
 // Gets the user and the authentication info
-queries.getUserForAuth = "SELECT * "
+queries.getUserForAuth = "SELECT id, firstname, lastname, email, users.CreationTimestamp, hpassword "
 	+ "FROM users, auth "
 	+ "WHERE userid=id "
-	+ "AND email=($1) AND hpassword=($2);";
+	+ "AND email=($1);";
 
-// Create a new user
+// Create a new user [firstname, lastname, email, hpassword]
 queries.createNewUser = "WITH x AS ( "
 		+ "INSERT INTO users (firstname, lastname, email) "
 		+ "VALUES (($1), ($2), ($3)) "
@@ -15,18 +15,18 @@ queries.createNewUser = "WITH x AS ( "
 	+ "INSERT INTO auth (userid, hpassword) "
 	+ "VALUES ((SELECT id FROM x), ($4));";
 
-// Get lists for x user
-queries.getListForUser = "SELECT DISTINCT listid, name, type, creator, creationtimestamp "
+// Get lists for x user [userid]
+queries.getListsForUser = "SELECT DISTINCT listid, name, type, creator, creationtimestamp "
 	+ "FROM userlists, lists "
 	+	"WHERE userlists.listid=lists.id AND userid=($1) "
-	+ "ORDER BY creationtimestamp;";
+	+ "ORDER BY creationtimestamp DESC;";
 
 
-// Get pending lists for x user
+// Get pending lists for x user [userid]
 queries.getPendingForUser = "SELECT DISTINCT listid, name, type, creator, creationtimestamp "
 	+ "FROM pendinguserlists, lists "
 	+ "WHERE pendinguserlists.listid=lists.id AND userid=($1) "
-	+ "ORDER BY creationtimestamp;";
+	+ "ORDER BY creationtimestamp DESC;";
 
 // get listitems for a list that the user is a member of [listid, userid]
 queries.getItemsForList = "SELECT * from listitems "
@@ -87,127 +87,115 @@ queries.updateListName = "UPDATE lists "
 	+ "SET name=($1) " 
 	+ "WHERE id=($2) AND creator=($3);";
 
-/*
-// Update list type if creator
-UPDATE lists
-SET type=2
-WHERE id=13 AND creator=1;
 
-// Search for users to add to a list
-SELECT * FROM users WHERE email ~* '.*drew@test.com.*';
 
-// DELETE other user if user creator the list
-WITH x AS (
-	DELETE FROM userlists
-	WHERE userid=4 AND listid=1
-	RETURNING userid, listid
-)
-INSERT INTO removeduserlists (userid, listid)
-SELECT * FROM x WHERE EXISTS
-(
-	SELECT * FROM lists WHERE listid=1 AND CREATOR=1
-);
+// Search for users to add to a list [email]
+queries.getUsersByEmail = "SELECT * FROM users "
+	+ "WHERE email ~* ('.*'||$1||'.*') "
+	+ "LIMIT 10;";
 
-// Create an item for a list user is apart of
-INSERT INTO listitems (listid, name, price, recipient, creator)
-SELECT 1, 'New Item and Such', 0, '', 1
-WHERE EXISTS
-(
-	SELECT * FROM userlists WHERE userid=1 AND listid=1
-);
 
-// Trash an item that is in a list user is apart of
-UPDATE listitems SET trashed=TRUE WHERE id=37 AND EXISTS
-(
-	SELECT * FROM userlists WHERE userid=1 AND listid=1
-);
 
-// Remove an item from the trash
-UPDATE listitems SET trashed=FALSE WHERE id=37 AND EXISTS
-(
-	SELECT * FROM userlists WHERE userid=1 AND listid=1
-);
+// DELETE other user if user is creator of the list [friendid, listid, userid]
+queries.deleteOtherUser = "WITH x AS ( "
+		+ "DELETE FROM userlists "
+		+ "WHERE userid=($1) AND listid=($2) "
+		+ "RETURNING userid, listid "
+	+ ") "
+	+ "INSERT INTO removeduserlists (userid, listid) "
+	+ "SELECT * FROM x WHERE EXISTS "
+	+ "( "
+		+ "SELECT * FROM lists WHERE listid=($2) AND CREATOR=($3) "
+	+ ");";
 
-// Set an item complete
-UPDATE listitems SET completed=TRUE WHERE id=37 AND EXISTS
-(
-	SELECT * FROM userlists WHERE userid=1 AND listid=1
-);
+// Create an item for a list user is apart of [listid, name, price, recipient, creator]
+queries.createNewItem = "INSERT INTO listitems (listid, name, price, recipient, creator) "
+	+ "SELECT ($1), ($2), ($3), ($4), ($5) "
+	+ "WHERE EXISTS "
+	+ "( "
+		+ "SELECT * FROM userlists WHERE userid=($5) AND listid=($1) "
+	+ ");";
 
-// unset an item complete
-UPDATE listitems SET completed=FALSE WHERE id=37 AND EXISTS
-(
-	SELECT * FROM userlists WHERE userid=1 AND listid=1
-);
+// Trash an item that is in a list user is apart of [itemid, userid, listid]
+queries.trashItem = "UPDATE listitems SET trashed=TRUE WHERE id=($1) AND EXISTS "
+	+ "( "
+		+ "SELECT * FROM userlists WHERE userid=($2) AND listid=($3) "
+	+ "); ";
 
-// edit an items information
-UPDATE listitems
-SET 
-	name = 'Updated Last item',
-	price = '13.00',
-	recipient = 'Yo Momma'
-WHERE id = 37 AND EXISTS
-(
-	SELECT * FROM userlists WHERE userid=1 AND listid=1
-);
+// Remove an item from the trash [itemid, userid, listid]
+queries.restoreItem = "UPDATE listitems SET trashed=FALSE WHERE id=($1) AND EXISTS "
+	+ "( "
+		+ "SELECT * FROM userlists WHERE userid=($2) AND listid=($3) "
+	+ ");";
 
-// Get pendinguserlists notis
-SELECT 
-	notis.id AS NotiID, 
-	notis.creationtimestamp AS NotiTimestamp, 
-	notis.read,
-	lists.id AS ListID,
-	lists.name AS ListName
-FROM notis, pendinguserlists, lists
-WHERE 
-	notis.pendinguserlistsid=pendinguserlists.id
-	AND pendinguserlists.listid = lists.id
-	AND notis.userid=1
-	AND pendinguserlistsid IS NOT NULL;
+// Set an item complete [itemid, userid, listid]
+queries.setItemComplete = "UPDATE listitems SET completed=TRUE WHERE id=($1) AND EXISTS "
+	+ "( "
+		+ "SELECT * FROM userlists WHERE userid=($2) AND listid=($3) "
+	+ ");";
 
-// Get approved userlist notis
-SELECT 
-	notis.id AS NotiID, 
-	notis.creationtimestamp AS NotiTimestamp, 
-	notis.read,
-	users.id AS aUserID,
-	users.firstname AS aUserFirstName,
-	users.lastname AS aUserLastName,
-	lists.id AS ListID,
-	lists.name AS ListName
-FROM notis, userlists, lists, users
-WHERE
-	notis.approveduserlistid=userlists.id
-	AND userlists.listid=lists.id
-	AND userlists.userid=users.id
-	AND notis.userid=1
-	AND approveduserlistid IS NOT NULL;
+// unset an item complete [itemid, userid, listid]
+queries.setItemIncomplete = "UPDATE listitems SET completed=FALSE WHERE id=($1) AND EXISTS "
+	+ "( "
+		+ "SELECT * FROM userlists WHERE userid=($2) AND listid=($3) "
+	+ ");";
 
-// Get removal notis
-SELECT 
-	notis.id AS NotiID, 
-	notis.creationtimestamp AS NotiTimestamp, 
-	notis.read,
-	users.id AS aUserID,
-	users.firstname AS aUserFirstName,
-	users.lastname AS aUserLastName,
-	lists.id AS ListID,
-	lists.name AS ListName
-FROM notis, removeduserlists, lists, users
-WHERE
-	notis.removeduserlistsid=removeduserlists.id
-	AND removeduserlists.listid=lists.id
-	AND removeduserlists.userid=users.id
-	AND notis.userid=1
-	AND removeduserlistsid IS NOT NULL;
+// Get pendinguserlists notis [userid]
+queries.getPendingListsNotis = "SELECT "
+		+ "notis.id AS NotiID, "
+		+ "notis.creationtimestamp AS NotiTimestamp, "
+		+ "notis.read, "
+		+ "lists.id AS ListID, "
+		+ "lists.name AS ListName "
+	+ "FROM notis, pendinguserlists, lists "
+	+ "WHERE "
+		+ "notis.pendinguserlistsid=pendinguserlists.id "
+		+ "AND pendinguserlists.listid = lists.id "
+		+ "AND notis.userid=($1) "
+		+ "AND pendinguserlistsid IS NOT NULL;";
+
+// Get approved userlist notis [userid]
+queries.getApprovedNotis = "SELECT "
+		+ "notis.id AS NotiID, "
+		+ "notis.creationtimestamp AS NotiTimestamp, "
+		+ "notis.read, "
+		+ "users.id AS aUserID, "
+		+ "users.firstname AS aUserFirstName, "
+		+ "users.lastname AS aUserLastName, "
+		+ "lists.id AS ListID, "
+		+ "lists.name AS ListName "
+	+ "FROM notis, userlists, lists, users "
+	+ "WHERE "
+		+ "notis.approveduserlistid=userlists.id "
+		+ "AND userlists.listid=lists.id "
+		+ "AND userlists.userid=users.id "
+		+ "AND notis.userid=($1) "
+		+ "AND approveduserlistid IS NOT NULL; ";
+
+// Get removal notis [userid]
+queries.getRemovalNotis = "SELECT "
+		+ "notis.id AS NotiID, "
+		+ "notis.creationtimestamp AS NotiTimestamp, "
+		+ "notis.read, "
+		+ "users.id AS aUserID, "
+		+ "users.firstname AS aUserFirstName, "
+		+ "users.lastname AS aUserLastName, "
+		+ "lists.id AS ListID, "
+		+ "lists.name AS ListName "
+	+ "FROM notis, removeduserlists, lists, users "
+	+ "WHERE "
+		+ "notis.removeduserlistsid=removeduserlists.id "
+		+ "AND removeduserlists.listid=lists.id "
+		+ "AND removeduserlists.userid=users.id "
+		+ "AND notis.userid=($1) "
+		+ "AND removeduserlistsid IS NOT NULL; ";
 
 // Set a noti as read
-UPDATE notis
-SET read=TRUE
-WHERE
-	userid=1
-	AND id=19;
-*/
+queries.setNotiRead = "UPDATE notis "
+	+ "SET read=TRUE "
+	+ "WHERE "
+		+ "userid=1 "
+		+ "AND id=19; ";
 
 module.exports = queries;
 
