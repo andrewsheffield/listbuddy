@@ -280,9 +280,95 @@ dal.getUsersByEmail = function(email, callback) {
 
 };
 
-dal.getUsersByEmail("@Test", function(err, users) {
-	console.log(users);
-})
+dal.deleteOtherUser = function(friendid, listid, userid, callback) {
+
+	pg.connect(connectionString, function (err, client, done) {
+		if (err) return callback(err, {});
+
+		var query = client.query(queries.deleteOtherUser, [friendid, listid, userid]);
+		
+		query.on('end', function() {
+			return callback(err, {message: "User has been removed"});
+		});
+
+	});
+
+}
+
+dal.createNewItem = function(listid, name, price, recipient, creatorid, callback) {
+
+	pg.connect(connectionString, function (err, client, done) {
+		if (err) return callback(err, {});
+
+		var query = client.query(queries.createNewItem, [listid, name, price, recipient, creatorid]);
+		
+		query.on('end', function() {
+			return callback(err, {message: "New item has been created."});
+		});
+
+	});
+
+}
+
+dal.trashItem = function(itemid, userid, listid, callback) {
+
+	pg.connect(connectionString, function (err, client, done) {
+		if (err) return callback(err, {});
+
+		var query = client.query(queries.trashItem, [itemid, userid, listid]);
+		
+		query.on('end', function() {
+			return callback(err, {message: "Item has been flagged for the trash."});
+		});
+
+	});
+
+}
+
+dal.restoreItem = function(itemid, userid, listid, callback) {
+
+	pg.connect(connectionString, function (err, client, done) {
+		if (err) return callback(err, {});
+
+		var query = client.query(queries.restoreItem, [itemid, userid, listid]);
+		
+		query.on('end', function() {
+			return callback(err, {message: "Item has been flagged for restore."});
+		});
+
+	});
+
+}
+
+dal.setItemComplete = function(itemid, userid, listid, callback) {
+
+	pg.connect(connectionString, function (err, client, done) {
+		if (err) return callback(err, {});
+
+		var query = client.query(queries.setItemComplete, [itemid, userid, listid]);
+		
+		query.on('end', function() {
+			return callback(err, {message: "Item has been flagged as complete."});
+		});
+
+	});
+
+}
+
+dal.setItemIncomplete = function(itemid, userid, listid, callback) {
+
+	pg.connect(connectionString, function (err, client, done) {
+		if (err) return callback(err, {});
+
+		var query = client.query(queries.setItemIncomplete, [itemid, userid, listid]);
+		
+		query.on('end', function() {
+			return callback(err, {message: "Item has been flagged as incomplete."});
+		});
+
+	});
+
+}
 
 
 
