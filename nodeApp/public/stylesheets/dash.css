@@ -1,0 +1,180 @@
+@charset "UTF-8";
+body {
+  -webkit-font-smoothing: subpixel-antialiased; }
+
+.settings p {
+  color: grey; }
+
+.nav-tabs {
+  margin-bottom: 20px; }
+
+.newlist {
+  margin-bottom: 20px; }
+
+.additem {
+  margin-bottom: 20px; }
+
+.notifications .noti a {
+  background-color: lightblue; }
+
+.notifications .noti a.read {
+  background-color: white; }
+
+.user-search {
+  position: relative;
+  margin-bottom: 20px; }
+  .user-search .glyphicon-remove-circle {
+    color: grey;
+    font-size: 1.3em;
+    position: absolute;
+    top: 37px;
+    right: 6px; }
+  .user-search .glyphicon-remove-circle:hover {
+    color: black;
+    cursor: pointer; }
+
+.list-panel {
+  cursor: pointer;
+  position: relative;
+  background-color: steelblue;
+  margin-bottom: 5px; }
+  .list-panel h3 {
+    padding: 0px;
+    margin: 0px;
+    color: white; }
+    .list-panel h3 small {
+      color: black; }
+  .list-panel .buttons {
+    text-align: right; }
+  .list-panel span {
+    font-size: 2em;
+    color: black; }
+  .list-panel a {
+    margin-top: 10px;
+    color: black;
+    font-size: 2em; }
+  .list-panel a.glyphicon-remove:hover {
+    color: darkred;
+    text-decoration: none; }
+  .list-panel a.glyphicon-ok:hover {
+    color: darkgreen;
+    text-decoration: none; }
+  .list-panel .selected:before {
+    content: " ";
+    position: absolute;
+    right: -21px;
+    top: 20px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 20px 0 20px 20px;
+    border-color: transparent transparent transparent #ddd; }
+  .list-panel .selected:after {
+    content: " ";
+    position: absolute;
+    right: -20px;
+    top: 20px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 20px 0px 20px 20px;
+    border-color: transparent transparent transparent steelblue; }
+
+.pending-list a {
+  font-size: 1.7em; }
+
+.item-panel {
+  background-color: pink;
+  margin-bottom: 5px; }
+  .item-panel .panel-body {
+    padding: 0px; }
+  .item-panel .check-complete {
+    margin-top: 10px; }
+    .item-panel .check-complete input[type='checkbox'] {
+      cursor: pointer;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 5px;
+      border: 1px solid #555; }
+    .item-panel .check-complete input[type='checkbox']:checked {
+      background: #000; }
+    .item-panel .check-complete input[type='checkbox']:checked:before {
+      position: relative;
+      left: 4px;
+      top: 1px;
+      color: white;
+      content: "✓"; }
+  .item-panel .item-creator {
+    text-align: right; }
+  .item-panel .remove-item {
+    text-align: right;
+    margin-top: 10px;
+    font-size: 1.5em; }
+    .item-panel .remove-item a {
+      color: black; }
+    .item-panel .remove-item a:hover {
+      color: darkred;
+      text-decoration: none; }
+
+.user-panel {
+  background-color: lightgreen;
+  margin-bottom: 5px; }
+  .user-panel .panel-body {
+    padding: 0px; }
+  .user-panel .remove-item {
+    text-align: right;
+    margin-top: 5px;
+    font-size: 1.5em; }
+    .user-panel .remove-item a {
+      color: black; }
+    .user-panel .remove-item a:hover {
+      color: darkred;
+      text-decoration: none; }
+  .user-panel .add-item {
+    text-align: right;
+    margin-top: 5px;
+    font-size: 1.5em; }
+    .user-panel .add-item a {
+      color: black; }
+    .user-panel .add-item a:hover {
+      color: green;
+      text-decoration: none; }
+
+@-webkit-keyframes spin {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+
+@keyframes spin {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+
+.spin {
+  -webkit-animation: spin 2s linear infinite;
+  -moz-animation: spin 2s linear infinite;
+  -ms-animation: spin 2s linear infinite;
+  -o-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite; }
+
+/*# sourceMappingURL=dash.css.map */

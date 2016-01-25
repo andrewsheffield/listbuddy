@@ -108,7 +108,7 @@ queries.deleteOtherUser = "WITH x AS ( "
 		+ "SELECT * FROM lists WHERE listid=($2) AND CREATOR=($3) "
 	+ ");";
 
-// Create an item for a list user is apart of [listid, name, price, recipient, creator]
+// Create an item for a list user is apart of [listid, name, price, recipient, creatorid]
 queries.createNewItem = "INSERT INTO listitems (listid, name, price, recipient, creator) "
 	+ "SELECT ($1), ($2), ($3), ($4), ($5) "
 	+ "WHERE EXISTS "

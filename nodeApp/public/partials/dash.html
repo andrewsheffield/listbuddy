@@ -1,0 +1,485 @@
+<div class="container" ng-app="ListBuddyApp" ng-controller="ListBuddyCont">
+
+  <!--Navbar-->
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> List Buddy
+        </a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li>
+          <p class="navbar-text">Signed in as {{ user.firstname + " " + user.lastname }} </p>
+        </li>
+        <li>
+          <button type="button" class="btn btn-default navbar-btn">Sign out</button>
+        </li>
+        <li>
+          <p class="navbar-text">
+            <span ng-if="loadCount>0" class="loading glyphicon glyphicon-repeat spin"></spin>
+          </p>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown notifications" ng-if="notifications.length>0">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            Notifications 
+            <span class="badge">{{ notifications.length }}</span>
+            <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu noti">
+              <li><a href="#" ng-class="{read: noti.read}" ng-repeat="noti in notifications">{{ 
+              noti.user.firstName + " "
+              + noti.user.lastName + " "
+              + noti.text
+              }}</a></li>
+            </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!--End of Navbar-->
+
+  <div class="row">
+
+    <!--Connection Issue Warning-->
+    <div class="col-md-12">
+      <div class="alert alert-danger" ng-if="!connectionStatus">You are experiencing connection issues. Nothing you do is being saved. Please refresh the page to continue.
+      </div>
+    </div>
+    <!--End of Connection Issue Warning-->
+
+    <!--List Col-->
+    <div class="col-md-4">
+
+      <!--List Header Row-->
+      <div class="row">
+        <div class="col-md-12">
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+              <a href="#mylists" aria-controls="mylists" role="tab" data-toggle="tab">My Lists <span class="badge" ng-if="lists.length > 0">{{ lists.length }}</span></a>
+            </li>
+            <li role="presentation" ng-if="pendingLists.length > 0">
+              <a href="#pendinglists" aria-controls="pendinglists" role="tab" data-toggle="tab">Pending Lists <span class="badge">{{ pendingLists.length }}</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!--End of list header row-->
+
+      <div class="tab-content">
+
+        <div role="tabpanel" class="tab-pane active" id="mylists">
+
+          <!--New List row-->
+          <div class="row">
+            <div class="col-md-12">
+              <div class="newlist">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="New list name..." ng-model="newList.name" />
+                  <span class="input-group-btn">
+                  <button class="btn btn-primary" ng-click="addNewList()">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                  <span class="glyphicon glyphicon-repeat spin hidden" aria-hidden="true"></span>
+                  </button>
+                  </span>
+                </div>
+                List Type: &nbsp;
+                <label class="radio-inline">
+                  <input type="radio" name="newList-type" value="1" ng-model="newList.type"> Simple
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="newList-type" value="2" ng-model="newList.type"> Financial
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="newList-type" value="3" ng-model="newList.type"> Gift
+                </label>
+              </div>
+            </div>
+          </div>
+          <!--End of new list row-->
+
+          <div class="row">
+            <div class="col-md-12">
+              
+              <div class="panel panel-default" ng-if="lists.length==0">
+                <div class="panel-body">
+                  <div class="col-md-12">
+                    <span>You have no lists yet.</span>
+                  </div>
+                </div>
+              </div>
+
+              <!--Join List-->
+              <div class="list list-panel panel panel-default" ng-repeat="list in lists" ng-click="setSelectedList(list)">
+                <div class="selected" ng-if="selectedList.id==list.id"></div>
+                <div class="panel-body">
+                  <div class="col-md-9">
+                    <span>
+                    <h3>{{ list.name }}<br />
+                      <small ng-if="list.type==1">Simple</small>
+                      <small ng-if="list.type==2">Financial</small>
+                      <small ng-if="list.type==3">Gift</small>
+                    </h3>
+                  </span>
+                  </div>
+                  <div class="col-md-3">
+                    <a href="#" class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="removeList(list.id)"></a>
+                  </div>
+                </div>
+              </div>
+              <!--End of Joined List-->
+
+            </div>
+          </div>
+
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="pendinglists">
+
+          <div class="row">
+            <div class="col-md-12">
+
+              <!--Pending List-->
+              <div class="pending-list list-panel panel panel-default" ng-repeat="list in pendingLists">
+                <div class="selected hidden"></div>
+                <div class="panel-body">
+                  <div class="col-md-8">
+                    <span>
+                    <h3>{{ list.name }}<br />
+                      <small ng-if="list.type==1">Simple</small>
+                      <small ng-if="list.type==2">Financial</small>
+                      <small ng-if="list.type==3">Gift</small>
+                    </h3>
+                  </span>
+                  </div>
+                  <div class="buttons col-md-4">
+                    <a href="#" class="glyphicon glyphicon-ok" aria-hidden="true" ng-click="approvePendingList(list.id)"></a>
+                    <a href="#" class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="deletePendingList(list.id)"></a>
+                  </div>
+                </div>
+              </div>
+              <!--End of pending list-->
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <!--End of List-->
+
+    <!--Item col-->
+    <div class="col-md-4" ng-if="selectedList">
+
+      <!--Item Tabs-->
+      <div class="row">
+        <div class="col-md-12">
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+              <a href="#items" aria-controls="items" role="tab" data-toggle="tab">Items <span class="badge"  ng-if="notCompleted.length>0">{{ notCompleted.length }}</span></a>
+            </li>
+            <li role="presentation">
+              <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Completed <span class="badge" ng-if="completed.length>0">{{ completed.length }}</span></a>
+            </li>
+            <li role="presentation">
+              <a href="#trash" aria-controls="trash" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!--End of Item Tabs-->
+
+      <div class="tab-content">
+
+        <!--Items list-->
+        <div role="tabpanel" class="tab-pane active" id="items">
+
+          <!--Add New Item inputs-->
+          <div class="row">
+            <div class="col-md-12">
+
+              <!--Add Simple Item-->
+              <div class="additem" ng-if="selectedList.type==1">
+                <span>New Item:</span>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" placeholder="Item name..." ng-model="newItem.name" />
+                  <span class="input-group-btn">
+                  <button class="btn btn-primary"  ng-click="addNewSimple(newItem.name)">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                  </button>
+                  </span>
+                </div>
+              </div>
+              <!--End of add Simple item-->
+
+              <!--Add Financial Item-->
+              <div class="additem" ng-if="selectedList.type==2">
+                <span>New Item:</span>
+                <div class="input-group-sm">
+                  <input type="text" class="form-control" placeholder="Item name..." ng-model="newItem.name" />
+                </div>
+                <div class="input-group input-group-sm">
+                  <span class="input-group-addon" id="sizing-addon2">$</span>
+                  <input type="text" class="form-control" placeholder="Amount example: 10.15" ng-model="newItem.amount " />
+                  <span class="input-group-btn">
+                  <button class="btn btn-primary"  ng-click="addNewFinancial(newItem.name, newItem.amount)">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                  </button>
+                  </span>
+                </div>
+              </div>
+              <!--End of add financial item-->
+
+              <!--Add Gift Item-->
+              <div class="additem" ng-if="selectedList.type==3">
+                <span>New Item: </span>
+                <div class="input-group-sm">
+                  <input type="text" class="form-control" placeholder="Item name..." ng-model="newItem.name" />
+                </div>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" placeholder="Recipient..." ng-model="newItem.recipient" />
+                  <span class="input-group-btn">
+                  <button class="btn btn-primary"  ng-click="addNewGift(newItem.name, newItem.recipient)">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                  <span class="glyphicon glyphicon-repeat spin hidden" aria-hidden="true"></span>
+                  </button>
+                  </span>
+                </div>
+              </div>
+              <!--End of add gift item-->
+
+            </div>
+          </div>
+          <!--End of Add New Item inputs-->
+
+          <div class="row">
+            <div class="col-md-12">
+
+              <div class="panel panel-default" ng-if="items.length==0">
+                <div class="panel-body">
+                  <div class="col-md-12">
+                    <span>This list contains no items.</span>
+                  </div>
+                </div>
+              </div>
+
+              <!--Item-->
+              <div class="item-panel panel panel-default" ng-repeat="item in notCompleted = (items | filter:{completed:false, trashed:false})">
+                <div class="panel-body">
+                  <div class="col-md-2">
+                    <div class="check-complete">
+                      <input type="checkbox" ng-click="setItemComplete()" ng-checked="item.completed">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <h5>{{ item.name }}<br />
+                    <small ng-if="selectedList.type==2">{{ '$' + (item.amount | number:2) }}</small>
+                    <small ng-if="selectedList.type==3">Recipient: {{ item.recipient }}</small>
+                  </h5>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="item-creator">
+                      <h5><small>{{ item.creator.firstName + " " + item.creator.lastName }}</small></h5>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="remove-item">
+                      <a href="#" class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="trashItem()"></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--End of Item-->
+
+            </div>
+          </div>
+
+        </div>
+        <!--End of Items List-->
+
+        <!--Completed List-->
+        <div role="tabpanel" class="tab-pane" id="completed">
+
+          <div class="row">
+            <div class="col-md-12">
+
+              <!--Completed Item-->
+              <div class="item-panel panel panel-default" ng-repeat="item in completed = (items | filter:{completed: true, trashed: false})">
+                <div class="panel-body">
+                  <div class="col-md-2">
+                    <div class="check-complete">
+                      <input type="checkbox" ng-click="setItemIncomplete()" ng-checked="item.completed">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <h5>{{ item.name }}<br />
+                    <small ng-if="selectedList.type==2">{{ '$' + (item.amount | number:2) }}</small>
+                    <small ng-if="selectedList.type==3">Recipient: {{ item.recipient }}</small>
+                  </h5>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="item-creator">
+                      <h5><small>{{ item.creator.firstName + " " + item.creator.lastName }}</small></h5>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="remove-item">
+                      <a href="#" class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="trashItem()"></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--End of CompletedItem-->
+
+            </div>
+          </div>
+
+        </div>
+        <!--End of completed List-->
+
+        <!--Trash List-->
+        <div role="tabpanel" class="tab-pane" id="trash">
+
+          <div class="row">
+            <div class="col-md-12">
+
+              <!--Item-->
+              <div class="item-panel panel panel-default" ng-repeat="item in trashed = (items | filter:{trashed: true})">
+                <div class="panel-body">
+                  <div class="col-md-2">
+                    <div class="check-complete">
+                      <input type="checkbox" ng-checked="item.completed">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <h5>{{ item.name }}<br />
+                    <small ng-if="selectedList.type==2">{{ '$' + (item.amount | number:2) }}</small>
+                    <small ng-if="selectedList.type==3">Recipient: {{ item.recipient }}</small>
+                  </h5>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="item-creator">
+                      <h5><small>{{ item.creator.firstName + " " + item.creator.lastName }}</small></h5>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="remove-item">
+                      <a href="#" class="glyphicon glyphicon-arrow-left" aria-hidden="true" ng-click="restoreItem()"></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--End of Item-->
+
+            </div>
+          </div>
+
+        </div>
+        <!--End of Trash List-->
+
+      </div>
+
+
+    </div>
+    <!--End of Item-->
+
+    <!--User col-->
+    <div class="col-md-4" ng-if="selectedList">
+
+      <div class="row">
+
+        <div class="col-md-12">
+
+          <div class="settings">
+            <h4>Users & Settings</h4>
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Update the list name..." ng-model="newListName" />
+              <span class="input-group-btn">
+              <button class="btn btn-primary" type="button">
+                <span class="glyphicon glyphicon-plus" ng-click="updateListName(newListName)"></span>
+              </button>
+              </span>
+            </div>
+            <p>List created on {{ selectedList.creation | date: "MMM dd, yyyy 'at' hh:mm a" }}</p>
+          </div>
+
+          <div class="user-search">
+            <h4>Search Users</h4>
+            <input type="text" class="form-control" placeholder="Search users to add..." ng-model="userSearch.text" />
+            <span class="cancel-search glyphicon glyphicon-remove-circle" ng-click="clearUserSearch()" ng-if="userSearch.text!=''"></span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+
+          <div class="user-panel panel panel-default" ng-repeat="user in listUsers" ng-if="userSearch.text==''">
+            <div class="panel-body">
+              <div class="col-md-8">
+                <h4>{{ user.firstName + " " + user.lastName }}</h4>
+              </div>
+              <div class="col-md-4">
+                <div class="remove-item">
+                  <a href="#" class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="removeUser(user.id)"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-panel panel panel-default" ng-repeat="user in searchUsers" ng-if="userSearch.text!=''">
+            <div class="panel-body">
+              <div class="col-md-8">
+                <h4>{{ user.firstName + " " + user.lastName }}</h4>
+              </div>
+              <div class="col-md-4">
+                <div class="add-item">
+                  <a href="#" class="glyphicon glyphicon-plus" aria-hidden="true" ng-click="addUser(id)"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default" ng-if="listUsers.length==0 && userSearch.text==''">
+            <div class="panel-body">
+              <div class="col-md-12">
+                <span>No other users are attached to this list.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default" ng-if="searchUsers.length==0 && userSearch.text!=''">
+            <div class="panel-body">
+              <div class="col-md-12">
+                <span>Your search has yielded no results.</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+    <!--End of User-->
+
+    <!--No Selection prompt-->
+    
+      <div class="col-md-8" ng-if="!selectedList">
+        <div class="jumbotron">
+          <h2>You have no stuffs or things!</h2>
+          <p>Start by selecting a list to the left or creating a new list.</p>
+          <img class="img-responsive img-rounded" src="http://emoji-emoticons.com/wp-content/uploads/2015/07/ShrugEmoticon-.jpg" />
+        </div>
+      </div>
+    <!--End of No Selection Prompt-->
+
+  </div>
+
+</div>

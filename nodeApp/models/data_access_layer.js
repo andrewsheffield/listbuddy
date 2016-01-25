@@ -30,7 +30,6 @@ dal.checkIfUserExists = function(email, callback) {
 dal.getUserForAuth = function(email, password, callback) {
 
 	var user = {};
-	var hpassword = bcrypt.hashSync(password, 8);
 
 	pg.connect(connectionString, function(err, client, done) {
 		if (err) return callback(err, {});
@@ -42,6 +41,7 @@ dal.getUserForAuth = function(email, password, callback) {
 		});
 
 		query.on('end', function() {
+			console.log(password);
 			bcrypt.compare(password, user.hpassword, function(err, res) {
 				delete user.hpassword; //removes the hpassword before user moves out of dal
 		    if (res) return callback(err, user);
