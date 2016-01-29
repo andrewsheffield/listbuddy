@@ -1,4 +1,4 @@
-<div class="container" ng-app="ListBuddyApp" ng-controller="ListBuddyCont">
+<div class="container" ng-controller="ListBuddyCont">
 
   <!--Navbar-->
   <nav class="navbar navbar-default">
@@ -58,10 +58,10 @@
         <div class="col-md-12">
           <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
-              <a href="#mylists" aria-controls="mylists" role="tab" data-toggle="tab">My Lists <span class="badge" ng-if="lists.length > 0">{{ lists.length }}</span></a>
+              <a data-target="#mylists" aria-controls="mylists" role="tab" data-toggle="tab">My Lists <span class="badge" ng-if="lists.length > 0">{{ lists.length }}</span></a>
             </li>
             <li role="presentation" ng-if="pendingLists.length > 0">
-              <a href="#pendinglists" aria-controls="pendinglists" role="tab" data-toggle="tab">Pending Lists <span class="badge">{{ pendingLists.length }}</span></a>
+              <a data-target="#pendinglists" aria-controls="pendinglists" role="tab" data-toggle="tab">Pending Lists <span class="badge">{{ pendingLists.length }}</span></a>
             </li>
           </ul>
         </div>
@@ -113,7 +113,7 @@
 
               <!--Join List-->
               <div class="list list-panel panel panel-default" ng-repeat="list in lists" ng-click="setSelectedList(list)">
-                <div class="selected" ng-if="selectedList.id==list.id"></div>
+                <div class="selected" ng-if="selectedList.listid==list.listid"></div>
                 <div class="panel-body">
                   <div class="col-md-9">
                     <span>
@@ -180,13 +180,13 @@
         <div class="col-md-12">
           <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
-              <a href="#items" aria-controls="items" role="tab" data-toggle="tab">Items <span class="badge"  ng-if="notCompleted.length>0">{{ notCompleted.length }}</span></a>
+              <a data-target="#items" aria-controls="items" role="tab" data-toggle="tab">Items <span class="badge"  ng-if="notCompleted.length>0">{{ notCompleted.length }}</span></a>
             </li>
             <li role="presentation">
-              <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Completed <span class="badge" ng-if="completed.length>0">{{ completed.length }}</span></a>
+              <a data-target="#completed" aria-controls="completed" role="tab" data-toggle="tab">Completed <span class="badge" ng-if="completed.length>0">{{ completed.length }}</span></a>
             </li>
             <li role="presentation">
-              <a href="#trash" aria-controls="trash" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+              <a data-target="#trash" aria-controls="trash" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
             </li>
           </ul>
         </div>
