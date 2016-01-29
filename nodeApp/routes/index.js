@@ -140,7 +140,6 @@ router.put('/api/v1/lists/:listid/users/:friendid', function(req, res, next) {
 		else res.json(data);
 	})
 
-
 });
 
 // Approve an invite
@@ -225,6 +224,7 @@ router.post('/api/v1/lists/:listid', function(req, res, next) {
 
 });
 
+// Trash Item
 router.put('/api/v1/lists/:listid/items/:itemid/trash', function(req, res, next) {
 
 	var userid = 1; // Get from auth
@@ -238,6 +238,7 @@ router.put('/api/v1/lists/:listid/items/:itemid/trash', function(req, res, next)
 
 });
 
+// Restore from trash
 router.put('/api/v1/lists/:listid/items/:itemid/restore', function(req, res, next) {
 
 	var userid = 1; //get from auth

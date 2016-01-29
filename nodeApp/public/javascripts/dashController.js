@@ -1,22 +1,3 @@
-app.factory('DashFactory', function($http){
-  var factory = {};
-  factory.user = {};
-  var baseURL = '/api/v1/';
-
-  factory.getLists = function(){
-    var url = baseURL + "lists";
-    return $http.get(url);
-  };
-
-  factory.getItems = function(listid) {
-    var url = baseURL + "lists/" + listid + "/items";
-    return $http.get(url);
-  }
-
-
-  return factory;
-});
-
 app.controller('ListBuddyCont', function($scope, DashFactory) {
   
   //Set connection status to false if ajax connection issue occurs
