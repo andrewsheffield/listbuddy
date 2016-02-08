@@ -103,8 +103,8 @@ router.post('/api/v1/lists', function(req, res, next) {
 //Delete self from list
 router.delete('/api/v1/lists/:listid', function(req, res, next) {
 
-	var userid = 1;
-	var listid = req.params.id;
+	var userid = 1; //Get from auth
+	var listid = req.params.listid;
 
 	dal.deleteSelfFromList(userid, listid, function(err, data) {
 		if (err) res.status(500).json(err);
@@ -116,7 +116,7 @@ router.delete('/api/v1/lists/:listid', function(req, res, next) {
 //Get users of a list
 router.get('/api/v1/lists/:listid/users', function(req, res, next) {
 
-	var listid = req.params.id;
+	var listid = req.params.listid;
 	var userid = 1; //Get From Auth
 
 	dal.getUsersOfAList(listid, userid, function(err, users) {
@@ -252,6 +252,7 @@ router.put('/api/v1/lists/:listid/items/:itemid/restore', function(req, res, nex
 
 });
 
+// Set complete
 router.put('/api/v1/lists/:listid/items/:itemid/setcomplete', function(req, res, next) {
 
 	var userid = 1; //get from auth

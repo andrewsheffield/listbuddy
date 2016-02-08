@@ -38,32 +38,32 @@ body {
   position: relative;
   background-color: steelblue;
   margin-bottom: 5px; }
-  .list-panel h3 {
+  .list-panel h4 {
     padding: 0px;
     margin: 0px;
     color: white; }
-    .list-panel h3 small {
+    .list-panel h4 small {
       color: black; }
   .list-panel .buttons {
     text-align: right; }
   .list-panel span {
     font-size: 2em;
     color: black; }
-  .list-panel a {
-    margin-top: 10px;
+  .list-panel span {
+    margin-top: 5px;
     color: black;
     font-size: 2em; }
-  .list-panel a.glyphicon-remove:hover {
+  .list-panel span.glyphicon-remove:hover {
     color: darkred;
     text-decoration: none; }
-  .list-panel a.glyphicon-ok:hover {
+  .list-panel span.glyphicon-ok:hover {
     color: darkgreen;
     text-decoration: none; }
   .list-panel .selected:before {
     content: " ";
     position: absolute;
     right: -21px;
-    top: 20px;
+    top: 15px;
     width: 0;
     height: 0;
     border-style: solid;
@@ -73,7 +73,7 @@ body {
     content: " ";
     position: absolute;
     right: -20px;
-    top: 20px;
+    top: 15px;
     width: 0;
     height: 0;
     border-style: solid;
@@ -112,9 +112,10 @@ body {
     text-align: right;
     margin-top: 10px;
     font-size: 1.5em; }
-    .item-panel .remove-item a {
+    .item-panel .remove-item span {
+      cursor: pointer;
       color: black; }
-    .item-panel .remove-item a:hover {
+    .item-panel .remove-item span:hover {
       color: darkred;
       text-decoration: none; }
 
@@ -127,18 +128,20 @@ body {
     text-align: right;
     margin-top: 5px;
     font-size: 1.5em; }
-    .user-panel .remove-item a {
+    .user-panel .remove-item span {
+      cursor: pointer;
       color: black; }
-    .user-panel .remove-item a:hover {
+    .user-panel .remove-item span:hover {
       color: darkred;
       text-decoration: none; }
   .user-panel .add-item {
     text-align: right;
     margin-top: 5px;
     font-size: 1.5em; }
-    .user-panel .add-item a {
+    .user-panel .add-item span {
+      cursor: pointer;
       color: black; }
-    .user-panel .add-item a:hover {
+    .user-panel .add-item span:hover {
       color: green;
       text-decoration: none; }
 

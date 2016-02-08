@@ -8,7 +8,7 @@ app.factory('DashFactory', function($http){
     return $http.get(url);
   };
 
-  factory.getUsers = function() {
+  factory.getPending = function() {
     var url = baseURL + "pending";
     return $http.get(url);
   }

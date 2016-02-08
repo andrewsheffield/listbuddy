@@ -39,7 +39,7 @@ body
   position: relative
   background-color: steelblue
   margin-bottom: 5px
-  h3
+  h4
     padding: 0px
     margin: 0px
     color: white
@@ -50,21 +50,21 @@ body
   span
     font-size: 2em
     color: black
-  a
-    margin-top: 10px
+  span
+    margin-top: 5px
     color: black
     font-size: 2em
-  a.glyphicon-remove:hover
+  span.glyphicon-remove:hover
     color: darkred
     text-decoration: none
-  a.glyphicon-ok:hover
+  span.glyphicon-ok:hover
     color: darkgreen
     text-decoration: none
   .selected:before
     content: " "
     position: absolute
     right: -21px
-    top: 20px
+    top: 15px
     width: 0
     height: 0
     border-style: solid
@@ -74,7 +74,7 @@ body
     content: " "
     position: absolute
     right: -20px
-    top: 20px
+    top: 15px
     width: 0
     height: 0
     border-style: solid
@@ -114,9 +114,10 @@ body
     text-align: right
     margin-top: 10px
     font-size: 1.5em
-    a
+    span
+      cursor: pointer
       color: black
-    a:hover
+    span:hover
       color: darkred
       text-decoration: none
     
@@ -129,18 +130,20 @@ body
     text-align: right
     margin-top: 5px
     font-size: 1.5em
-    a
+    span
+      cursor: pointer
       color: black
-    a:hover
+    span:hover
       color: darkred
       text-decoration: none
   .add-item
     text-align: right
     margin-top: 5px
     font-size: 1.5em
-    a
+    span
+      cursor: pointer
       color: black
-    a:hover
+    span:hover
       color: green
       text-decoration: none
     

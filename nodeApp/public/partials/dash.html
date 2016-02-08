@@ -117,15 +117,15 @@
                 <div class="panel-body">
                   <div class="col-md-9">
                     <span>
-                    <h3>{{ list.name }}<br />
+                    <h4>{{ list.name }}<br />
                       <small ng-if="list.type==1">Simple</small>
                       <small ng-if="list.type==2">Financial</small>
                       <small ng-if="list.type==3">Gift</small>
-                    </h3>
+                    </h4 >
                   </span>
                   </div>
                   <div class="col-md-3">
-                    <a href="#" class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="removeList(list.id)"></a>
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="removeList(list.listid)"></span>
                   </div>
                 </div>
               </div>
@@ -147,16 +147,16 @@
                 <div class="panel-body">
                   <div class="col-md-8">
                     <span>
-                    <h3>{{ list.name }}<br />
+                    <h4>{{ list.name }}<br />
                       <small ng-if="list.type==1">Simple</small>
                       <small ng-if="list.type==2">Financial</small>
                       <small ng-if="list.type==3">Gift</small>
-                    </h3>
+                    </h4>
                   </span>
                   </div>
                   <div class="buttons col-md-4">
-                    <a href="#" class="glyphicon glyphicon-ok" aria-hidden="true" ng-click="approvePendingList(list.id)"></a>
-                    <a href="#" class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="deletePendingList(list.id)"></a>
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true" ng-click="approvePendingList(list.listid)"></span>
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="deletePendingList(list.listid)"></span>
                   </div>
                 </div>
               </div>
@@ -272,12 +272,12 @@
                 <div class="panel-body">
                   <div class="col-md-2">
                     <div class="check-complete">
-                      <input type="checkbox" ng-click="setItemComplete()" ng-checked="item.completed">
+                      <input type="checkbox" ng-click="setItemComplete(item.id)" ng-checked="item.completed">
                     </div>
                   </div>
                   <div class="col-md-6">
                     <h5>{{ item.name }}<br />
-                    <small ng-if="selectedList.type==2">{{ '$' + (item.amount | number:2) }}</small>
+                    <small ng-if="selectedList.type==2">{{ '$' + (item.price | number:2) }}</small>
                     <small ng-if="selectedList.type==3">Recipient: {{ item.recipient }}</small>
                   </h5>
                   </div>
@@ -288,7 +288,7 @@
                   </div>
                   <div class="col-md-2">
                     <div class="remove-item">
-                      <a href="#" class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="trashItem()"></a>
+                      <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="trashItem(item.id)"></span>
                     </div>
                   </div>
                 </div>
@@ -312,7 +312,7 @@
                 <div class="panel-body">
                   <div class="col-md-2">
                     <div class="check-complete">
-                      <input type="checkbox" ng-click="setItemIncomplete()" ng-checked="item.completed">
+                      <input type="checkbox" ng-click="setItemIncomplete(item.id)" ng-checked="item.completed">
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -328,7 +328,7 @@
                   </div>
                   <div class="col-md-2">
                     <div class="remove-item">
-                      <a href="#" class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="trashItem()"></a>
+                      <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="trashItem()"></span>
                     </div>
                   </div>
                 </div>
@@ -368,7 +368,7 @@
                   </div>
                   <div class="col-md-2">
                     <div class="remove-item">
-                      <a href="#" class="glyphicon glyphicon-arrow-left" aria-hidden="true" ng-click="restoreItem()"></a>
+                      <span href="#" class="glyphicon glyphicon-arrow-left" aria-hidden="true" ng-click="restoreItem(item.id)"></span>
                     </div>
                   </div>
                 </div>
@@ -399,8 +399,8 @@
             <div class="input-group">
               <input type="text" class="form-control" placeholder="Update the list name..." ng-model="newListName" />
               <span class="input-group-btn">
-              <button class="btn btn-primary" type="button">
-                <span class="glyphicon glyphicon-plus" ng-click="updateListName(newListName)"></span>
+              <button class="btn btn-primary" type="button" ng-click="updateListName(newListName)">
+                <span>Save</span>
               </button>
               </span>
             </div>
@@ -409,7 +409,7 @@
 
           <div class="user-search">
             <h4>Search Users</h4>
-            <input type="text" class="form-control" placeholder="Search users to add..." ng-model="userSearch.text" />
+            <input type="text" class="form-control" placeholder="Search users to add..." ng-model="userSearch.text"  ng-change="populateSearchUsers()" />
             <span class="cancel-search glyphicon glyphicon-remove-circle" ng-click="clearUserSearch()" ng-if="userSearch.text!=''"></span>
           </div>
 
@@ -423,11 +423,11 @@
           <div class="user-panel panel panel-default" ng-repeat="user in listUsers" ng-if="userSearch.text==''">
             <div class="panel-body">
               <div class="col-md-8">
-                <h4>{{ user.firstName + " " + user.lastName }}</h4>
+                <h4>{{ user.firstname + " " + user.lastname }}</h4>
               </div>
               <div class="col-md-4">
                 <div class="remove-item">
-                  <a href="#" class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="removeUser(user.id)"></a>
+                  <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="removeUser(user.userid)"></span>
                 </div>
               </div>
             </div>
@@ -436,11 +436,11 @@
           <div class="user-panel panel panel-default" ng-repeat="user in searchUsers" ng-if="userSearch.text!=''">
             <div class="panel-body">
               <div class="col-md-8">
-                <h4>{{ user.firstName + " " + user.lastName }}</h4>
+                <h4>{{ user.firstname + " " + user.lastname }}</h4>
               </div>
               <div class="col-md-4">
                 <div class="add-item">
-                  <a href="#" class="glyphicon glyphicon-plus" aria-hidden="true" ng-click="addUser(id)"></a>
+                  <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-click="addUser(user.id)"></span>
                 </div>
               </div>
             </div>
