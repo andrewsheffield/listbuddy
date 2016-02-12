@@ -1,5 +1,5 @@
 var pg = require('pg');
-var connectionString = 'postgres://localhost:5432/listbuddy';
+var connectionString = process.env.DATABASE_URL;
 var queries = require('./queries');
 var bcrypt = require('bcrypt');
 
