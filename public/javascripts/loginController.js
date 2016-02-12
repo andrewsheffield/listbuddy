@@ -12,6 +12,10 @@ app.factory('loginFactory', function($http){
     return $http.get(url);
   }
 
+  factory.attemptSignup = function (data) {
+  	return $http.post(baseURL + "user/create", data);
+  }
+
   return factory;
 });
 
@@ -42,13 +46,26 @@ app.controller('loginController', function($scope, $location, loginFactory) {
 		loginFactory.attemptLogin($scope.loginData)
 			.success(function(user) {
 				$scope.loading = 0;
-				console.log(user);
 				$location.path('/dash');
 			})
 			.error(function(err) {
 				$scope.loading = 0;
 				$scope.failedAuth = true;
 				console.log(err);
+			});
+	}
+
+	$scope.attemptSignup = function() {
+		$scope.loading = 1;
+		loginFactory.attemptSignup($scope.signup)
+			.success(function(user) {
+				$scope.loading = 0;
+				$location.path('/dash');
+			})
+			.error(function(err) {
+				console.log(err);
+				$scope.loading = 0;
+				$scope.failedAuth = true;
 			});
 	}
 

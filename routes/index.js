@@ -29,7 +29,6 @@ router.post('/api/v1/user/login', function(req, res, next) {
 			req.login(user, function(err) {
 				if (err) return next(err);
 				else res.json(user);
-
 			});
 		}
 	});
@@ -55,7 +54,12 @@ router.post('/api/v1/user/create', function(req, res, next) {
 
 	dal.createNewUser(firstname, lastname, email, password, function(err, user) {
   	if (err) res.json(err);
-  	else res.json(user);
+  	else {
+  		req.login(user, function(err) {
+				if (err) return next(err);
+				else res.json(user);
+			});
+  	}
   });
 });
 

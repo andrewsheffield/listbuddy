@@ -46,7 +46,7 @@
             </div>
             <input class="form-control" placeholder="Password" type="password" name="lpassword" ng-model="loginData.password" />
           </div>
-          <div class="checkbox">
+          <div class="checkbox hidden">
             <label>
               <input type="checkbox" value="true" name="rememberme" type="string" ng-model="rmCheck" /> Remember Me
             </label>
@@ -60,30 +60,30 @@
 
       <!--Sign up Tab-->
       <div class="tab-pane fade" id="signup">
-        <form class="form-signup" role="form" action="/api-v1.0.0/signup/" method="post">
+        <form class="form-signup" role="form">
           <div class="input-group">
             <div class="input-group-addon">
               <span class="glyphicon glyphicon-user"></span>
             </div>
-            <input class="form-control" placeholder="First Name" type="firstname" name="firstname" />
+            <input class="form-control" placeholder="First Name" type="signup.firstname" name="sfirstname" />
           </div>
           <div class="input-group">
             <div class="input-group-addon">
               <span class="glyphicon glyphicon-user"></span>
             </div>
-            <input class="form-control" placeholder="Last Name" type="lastname" name="lastname" />
+            <input class="form-control" placeholder="Last Name" type="signup.lastname" name="slastname" />
           </div>
           <div class="input-group">
             <div class="input-group-addon">
               <span class="glyphicon glyphicon-envelope"></span>
             </div>
-            <input class="form-control" placeholder="Email Address" type="email" name="username" />
+            <input class="form-control" placeholder="Email Address" type="signup.email" name="susername" />
           </div>
           <div class="input-group">
             <div class="input-group-addon">
               <span class="glyphicon glyphicon-lock"></span>
             </div>
-            <input class="form-control" placeholder="Password" type="password" name="password" />
+            <input class="form-control" placeholder="Password" type="signup.password" name="spassword" />
           </div>
           <div class="input-group">
             <div class="input-group-addon">
@@ -94,8 +94,9 @@
           <div class="input-group">
             &nbsp;
           </div>
-          <button class="btn btn-success btn-lg btn-block" type="submit">
+          <button class="btn btn-success btn-lg btn-block" ng-click="attemptSignup()">
             <span class="glyphicon glyphicon-pencil"></span> Sign Up
+            <span class="glyphicon glyphicon-repeat spin" ng-if="loading>0"></span>
           </button>
         </form>
       </div>
