@@ -25,6 +25,7 @@ app.controller('loginController', function($scope, $location, loginFactory, Dash
 			.success(function(user) {
 				$scope.loading = 0;
 				DashFactory.user = user;
+				console.log(user);
 				$location.path('/dash');
 			})
 			.error(function(err) {

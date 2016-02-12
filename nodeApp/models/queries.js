@@ -1,5 +1,10 @@
 var queries = {};
 
+//get user by id
+queries.getUserById = "SELECT id, firstname, lastname, email, creationtimestamp "
+	+ "FROM users "
+	+ "WHERE id=($1);";
+
 // Gets the user and the authentication info
 queries.getUserForAuth = "SELECT id, firstname, lastname, email, users.CreationTimestamp, hpassword "
 	+ "FROM users, auth "

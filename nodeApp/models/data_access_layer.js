@@ -5,6 +5,34 @@ var bcrypt = require('bcrypt');
 
 var dal = {};
 
+dal.findById = function(id, callback) {
+	var user = {};
+
+	pg.connect(connectionString, function(err, client, done) {
+
+		if (err) {
+			done();
+			return callback(err);
+		}
+
+		var query = client.query(queries.getUserById, [id]);
+
+		query.on('row', function(row) {
+			user = row;
+		});
+
+		query.on('end', function() {
+			done();
+			if (user) {
+				return callback(err, user);
+			}
+			else return callback(err, {message: 'no such user'});
+		})
+
+	})
+
+}
+
 dal.checkIfUserExists = function(email, callback) {
 
 	var result = null;
@@ -40,7 +68,7 @@ dal.getUserForAuth = function(email, password, callback) {
 		// if error close connection and resturn err
 		if (err) {
 			done();
-			return callback(err, results);
+			return callback(err);
 		}
 		
 		var query = client.query(queries.getUserForAuth, [email]);
@@ -53,8 +81,8 @@ dal.getUserForAuth = function(email, password, callback) {
 			done();
 			bcrypt.compare(password, user.hpassword, function(err, res) {
 				delete user.hpassword; //removes the hpassword before user moves out of dal
-		    if (res) return callback(err, user);
-		    else return callback({message: "Auth Failed."}, {});
+		    if (res) return callback(null, user);
+		    else return callback(null, false, {message: "Auth Failed."});
 			});
 		});
 

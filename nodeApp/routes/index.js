@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var dal = require('../models/data_access_layer');
+var passport = require('passport');
 
 
 /* GET home page. */
@@ -25,11 +26,19 @@ router.post('/api/v1/user/login', function(req, res, next) {
 	dal.getUserForAuth(email, password, function(err, user) {
 		if (err) res.status(401).json(err);
 		else {
-			res.json(user);
+			req.login(user, function(err) {
+				if (err) return next(err);
+				else res.json(user);
+
+			});
 		}
 	});
 
 });
+
+router.get('/fail', function(req, res, next) {
+	res.send("Login Failed");
+})
 
 //Create a new user, returns user when created
 router.post('/api/v1/user/create', function(req, res, next) {
