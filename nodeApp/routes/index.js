@@ -17,7 +17,7 @@ router.get('/dash', function(req, res, next) {
 
 });
 
-//getUserForAuth
+//login and return user
 router.post('/api/v1/user/login', function(req, res, next) {
 
 	var email = req.body.email;
@@ -35,6 +35,11 @@ router.post('/api/v1/user/login', function(req, res, next) {
 	});
 
 });
+
+router.get('/api/v1/user/auth', function(req, res, next) {
+	if (req.user) res.json(req.user);
+	else res.status(401).json({message: "No user is authenticated"});
+})
 
 router.get('/fail', function(req, res, next) {
 	res.send("Login Failed");

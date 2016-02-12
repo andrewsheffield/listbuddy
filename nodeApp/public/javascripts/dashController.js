@@ -1,4 +1,4 @@
-app.controller('ListBuddyCont', function($scope, DashFactory) {
+app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
   
   //Set connection status to false if ajax connection issue occurs
   $scope.connectionStatus = true;
@@ -14,6 +14,18 @@ app.controller('ListBuddyCont', function($scope, DashFactory) {
   //user and notifications
   $scope.user = {};
   $scope.notifications = [];
+  $scope.checkForAuth = function() {
+    $scope.incLoadCount();
+    DashFactory.checkForAuth()
+      .success(function(user) {
+        $scope.user = user;
+        $scope.decLoadCount();
+      })
+      .error(function(err) {
+        console.log(err);
+        $location.path('/');
+      });
+  }
 
   //List Class
   $scope.newList = { type: 1 }; //inits default type to simple
@@ -51,7 +63,6 @@ app.controller('ListBuddyCont', function($scope, DashFactory) {
   };
   $scope.setSelectedList = function(list){
     $scope.selectedList = list;
-    $scope.incLoadCount();
     $scope.populateItems();
     $scope.populateListUsers();
   };
@@ -295,7 +306,7 @@ app.controller('ListBuddyCont', function($scope, DashFactory) {
   };
 
   var init = function() {
-    $scope.user = DashFactory.user;
+    $scope.checkForAuth();
     $scope.populateLists();
     $scope.populatePendingLists();
   }();

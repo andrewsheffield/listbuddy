@@ -1,7 +1,11 @@
 app.factory('DashFactory', function($http){
   var factory = {};
-  factory.user = {};
   var baseURL = '/api/v1/';
+
+  factory.checkForAuth = function() {
+    var url = baseURL + "user/auth";
+    return $http.get(url);
+  }
 
   factory.getLists = function(){
     var url = baseURL + "lists";
