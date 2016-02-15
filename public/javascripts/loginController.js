@@ -43,33 +43,52 @@ app.controller('loginController', function($scope, $location, loginFactory) {
 
 	$scope.attemptLogin = function() {
 		$scope.loading = 1;
-		$(".btn-login").addClass('disabled');
+		disableButton(".btn-login");
 		loginFactory.attemptLogin($scope.loginData)
 			.success(function(user) {
 				$scope.loading = 0;
 				$location.path('/dash');
-				$(".btn-login").removeClass('disabled');
+				enableButton(".btn-login");
 			})
 			.error(function(err) {
 				$scope.loading = 0;
 				$scope.failedAuth = true;
 				console.log(err);
-				$(".btn-login").removeClass('disabled');
+				enableButton(".btn-login");
 			});
 	}
 
 	$scope.attemptSignup = function() {
 		$scope.loading = 1;
+		disableButton(".btn-signup");
 		loginFactory.attemptSignup($scope.signup)
 			.success(function(user) {
 				$scope.loading = 0;
 				$location.path('/dash');
+				enableButton(".btn-signup");
 			})
 			.error(function(err) {
 				console.log(err);
 				$scope.loading = 0;
 				$scope.failedAuth = true;
+				enableButton(".btn-signup");
 			});
+	}
+
+	var disableButton = function (btn_class_name) {
+		$(btn_class_name)
+			.addClass('disabled')
+			.find('span')
+			.not('.spin')
+			.hide();
+	}
+
+	var enableButton = function (btn_class_name) {
+		$(btn_class_name)
+			.removeClass('disabled')
+			.find('span')
+			.not('.spin')
+			.show();;
 	}
 
 });
