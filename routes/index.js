@@ -17,6 +17,11 @@ router.get('/dash', function(req, res, next) {
 
 });
 
+router.get('/api/v1/user/signout', function(req, res, next) {
+	req.logout();
+	res.json({message:"Logout successful"});
+})
+
 //login and return user
 router.post('/api/v1/user/login', function(req, res, next) {
 
@@ -29,20 +34,16 @@ router.post('/api/v1/user/login', function(req, res, next) {
 			req.login(user, function(err) {
 				if (err) return next(err);
 				else res.json(user);
+				console.log(user);
 			});
 		}
 	});
-
 });
 
 router.get('/api/v1/user/auth', function(req, res, next) {
 	if (req.user) res.json(req.user);
 	else res.status(401).json({message: "No user is authenticated"});
-})
-
-router.get('/fail', function(req, res, next) {
-	res.send("Login Failed");
-})
+});
 
 //Create a new user, returns user when created
 router.post('/api/v1/user/create', function(req, res, next) {
@@ -66,7 +67,7 @@ router.post('/api/v1/user/create', function(req, res, next) {
 // Get all lists for current user
 router.get('/api/v1/lists', function(req, res, next) {
 
-	var userid = 1; //Get from auth
+	var userid = req.user.id; //Get from auth
 
 	dal.getListsForUser(userid, function(err, lists) {
 
@@ -80,7 +81,7 @@ router.get('/api/v1/lists', function(req, res, next) {
 // get all pending lists for user
 router.get('/api/v1/pending', function(req, res, next) {
 
-	var userid = 1; //Get from session auth
+	var userid = req.user.id; //Get from auth
 
 	dal.getPendingForUser(userid, function(err, lists) {
 		if (err) res.status(500).json(err);
@@ -92,7 +93,7 @@ router.get('/api/v1/pending', function(req, res, next) {
 //Get Items for list
 router.get('/api/v1/lists/:listid/items', function(req, res, next) {
 
-	var userid = 1; //Get from session auth
+	var userid = req.user.id; //Get from auth
 	var listid = req.params.listid;
 
 	dal.getItemsForList(listid, userid, function(err, items) {
@@ -105,7 +106,7 @@ router.get('/api/v1/lists/:listid/items', function(req, res, next) {
 //Create new list
 router.post('/api/v1/lists', function(req, res, next) {
 
-	var userid = 1; //Get from auth
+	var userid = req.user.id; //Get from auth
 	var name = req.body.name;
 	var type = req.body.type;
 
@@ -121,7 +122,7 @@ router.post('/api/v1/lists', function(req, res, next) {
 //Delete self from list
 router.delete('/api/v1/lists/:listid', function(req, res, next) {
 
-	var userid = 1; //Get from auth
+	var userid = req.user.id; //Get from auth
 	var listid = req.params.listid;
 
 	dal.deleteSelfFromList(userid, listid, function(err, data) {
@@ -135,7 +136,7 @@ router.delete('/api/v1/lists/:listid', function(req, res, next) {
 router.get('/api/v1/lists/:listid/users', function(req, res, next) {
 
 	var listid = req.params.listid;
-	var userid = 1; //Get From Auth
+	var userid = req.user.id; //Get from auth
 
 	dal.getUsersOfAList(listid, userid, function(err, users) {
 
@@ -151,7 +152,7 @@ router.put('/api/v1/lists/:listid/users/:friendid', function(req, res, next) {
 
 	var listid = req.params.listid;
 	var friendid = req.params.friendid;
-	var userid = 1; // get from auth
+	var userid = req.user.id; //Get from auth
 
 	dal.inviteFriendToList(friendid, listid, userid, function(err, data) {
 		if (err) res.status(500).json(err);
@@ -163,7 +164,7 @@ router.put('/api/v1/lists/:listid/users/:friendid', function(req, res, next) {
 // Approve an invite
 router.put('/api/v1/lists/:listid/approve', function(req, res, next) {
 
-	var userid = 1; // Get From Auth
+	var userid = req.user.id; //Get from auth
 	var listid = req.params.listid;
 
 	dal.approveInvite(userid, listid, function(err, data) {
@@ -176,7 +177,7 @@ router.put('/api/v1/lists/:listid/approve', function(req, res, next) {
 //decline an invite
 router.put('/api/v1/lists/:listid/decline', function(req, res, next) {
 
-	var userid = 1; // Get From Auth
+	var userid = req.user.id; //Get from auth
 	var listid = req.params.listid;
 
 	dal.declineInvite(userid, listid, function(err, data) {
@@ -191,7 +192,7 @@ router.put('/api/v1/lists/:listid', function(req, res, next) {
 
 	var listname = req.body.listname;
 	var listid = req.params.listid;
-	var userid = 1;  //Get from auth
+	var userid = req.user.id; //Get from auth
 
 	dal.updateListName(listname, listid, userid, function(err, data){
 		if (err) res.status(500).json(err);
@@ -215,7 +216,7 @@ router.get('/api/v1/search/users/:searchString', function(req, res, next) {
 // delete Other user from a list
 router.delete('/api/v1/lists/:listid/users/:friendid', function(req, res, next) {
 
-	var userid = 1; //Get From Auth
+	var userid = req.user.id; //Get from auth
 	var listid = req.params.listid;
 	var friendid = req.params.friendid;
 
@@ -229,7 +230,7 @@ router.delete('/api/v1/lists/:listid/users/:friendid', function(req, res, next) 
 // Create New Item
 router.post('/api/v1/lists/:listid', function(req, res, next) {
 
-	var userid = 1; //Get From Auth
+	var userid = req.user.id; //Get from auth
 	var listid = req.params.listid;
 	var name = req.body.name;
 	var price = (req.body.price) ? req.body.price : 0;
@@ -245,7 +246,7 @@ router.post('/api/v1/lists/:listid', function(req, res, next) {
 // Trash Item
 router.put('/api/v1/lists/:listid/items/:itemid/trash', function(req, res, next) {
 
-	var userid = 1; // Get from auth
+	var userid = req.user.id; //Get from auth
 	var listid = req.params.listid;
 	var itemid = req.params.itemid;
 
@@ -259,7 +260,7 @@ router.put('/api/v1/lists/:listid/items/:itemid/trash', function(req, res, next)
 // Restore from trash
 router.put('/api/v1/lists/:listid/items/:itemid/restore', function(req, res, next) {
 
-	var userid = 1; //get from auth
+	var userid = req.user.id; //Get from auth
 	var listid = req.params.listid;
 	var itemid = req.params.itemid;
 
@@ -273,7 +274,7 @@ router.put('/api/v1/lists/:listid/items/:itemid/restore', function(req, res, nex
 // Set complete
 router.put('/api/v1/lists/:listid/items/:itemid/setcomplete', function(req, res, next) {
 
-	var userid = 1; //get from auth
+	var userid = req.user.id; //Get from auth
 	var listid = req.params.listid;
 	var itemid = req.params.itemid;
 
@@ -286,7 +287,7 @@ router.put('/api/v1/lists/:listid/items/:itemid/setcomplete', function(req, res,
 
 router.put('/api/v1/lists/:listid/items/:itemid/setincomplete', function(req, res, next) {
 
-	var userid = 1; //get from auth
+	var userid = req.user.id; //Get from auth
 	var listid = req.params.listid;
 	var itemid = req.params.itemid;
 

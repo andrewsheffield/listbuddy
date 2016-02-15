@@ -7,6 +7,11 @@ app.factory('DashFactory', function($http){
     return $http.get(url);
   }
 
+  factory.signout = function() {
+    var url = baseURL + "user/signout";
+    return $http.get(url);
+  }
+
   factory.getLists = function(){
     var url = baseURL + "lists";
     return $http.get(url);

@@ -25,6 +25,17 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
         console.log(err);
         $location.path('/');
       });
+  };
+  $scope.signout = function() {
+    $scope.incLoadCount();
+    DashFactory.signout()
+      .success(function() {
+        $location.path('/');
+      })
+      .error(function(err) {
+        console.log(err);
+        $location.path('/');
+      })
   }
 
   //List Class
