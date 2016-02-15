@@ -43,15 +43,18 @@ app.controller('loginController', function($scope, $location, loginFactory) {
 
 	$scope.attemptLogin = function() {
 		$scope.loading = 1;
+		$(".btn-login").addClass('disabled');
 		loginFactory.attemptLogin($scope.loginData)
 			.success(function(user) {
 				$scope.loading = 0;
 				$location.path('/dash');
+				$(".btn-login").removeClass('disabled');
 			})
 			.error(function(err) {
 				$scope.loading = 0;
 				$scope.failedAuth = true;
 				console.log(err);
+				$(".btn-login").removeClass('disabled');
 			});
 	}
 

@@ -20,7 +20,7 @@ router.get('/dash', function(req, res, next) {
 router.get('/api/v1/user/signout', function(req, res, next) {
 	req.logout();
 	res.json({message:"Logout successful"});
-})
+});
 
 //login and return user
 router.post('/api/v1/user/login', function(req, res, next) {
