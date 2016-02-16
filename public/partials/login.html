@@ -51,10 +51,10 @@
               <input type="checkbox" value="true" name="rememberme" type="string" ng-model="rmCheck" /> Remember Me
             </label>
           </div>
-          <button class="btn btn-primary btn-lg btn-block btn-login" ng-click="attemptLogin()">
-            <span class="glyphicon glyphicon-home"></span>
-            <span>Login</span>
-            <span class="glyphicon glyphicon-repeat spin" ng-if="loading>0"></span>
+          <button class="btn btn-primary btn-lg btn-block btn-login" ng-click="attemptLogin()" ng-disabled="loginLoading">
+            <span class="glyphicon glyphicon-home" ng-if="!loginLoading"></span>
+            <span ng-if="!loginLoading">Login</span>
+            <span class="glyphicon glyphicon-repeat spin" ng-if="loginLoading"></span>
           </button>
         </form>
       </div>
@@ -95,9 +95,10 @@
           <div class="input-group">
             &nbsp;
           </div>
-          <button class="btn btn-success btn-lg btn-block" ng-click="attemptSignup()">
-            <span class="glyphicon glyphicon-pencil"></span> Sign Up
-            <span class="glyphicon glyphicon-repeat spin" ng-if="loading>0"></span>
+          <button class="btn btn-success btn-lg btn-block" ng-click="attemptSignup()" ng-disabled="signupLoading">
+            <span class="glyphicon glyphicon-pencil" ng-if="!signupLoading"></span>
+            <span ng-if="!signupLoading">Sign Up</span>
+            <span class="glyphicon glyphicon-repeat spin" ng-if="signupLoading"></span>
           </button>
         </form>
       </div>

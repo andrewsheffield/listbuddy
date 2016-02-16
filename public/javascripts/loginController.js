@@ -28,67 +28,42 @@ app.controller('loginController', function($scope, $location, loginFactory) {
 	$scope.loading = 0;
 
 	$scope.checkForAuth = function() {
-		$scope.loading = 1;
     loginFactory.checkForAuth()
       .success(function(user) {
-      	$scope.loading = 0;
         $location.path('/dash');
       })
       .error(function(err) {
-      	$scope.loading = 0;
         console.log(err);
       });
   }();
 
 
 	$scope.attemptLogin = function() {
-		$scope.loading = 1;
-		disableButton(".btn-login");
+		$scope.loginLoading = true;
 		loginFactory.attemptLogin($scope.loginData)
 			.success(function(user) {
-				$scope.loading = 0;
 				$location.path('/dash');
-				enableButton(".btn-login");
+				$scope.loginLoading = false;
 			})
 			.error(function(err) {
-				$scope.loading = 0;
 				$scope.failedAuth = true;
+				$scope.loginLoading = false;
 				console.log(err);
-				enableButton(".btn-login");
 			});
 	}
 
 	$scope.attemptSignup = function() {
-		$scope.loading = 1;
-		disableButton(".btn-signup");
+		$scope.signupLoading = true;
 		loginFactory.attemptSignup($scope.signup)
 			.success(function(user) {
-				$scope.loading = 0;
 				$location.path('/dash');
-				enableButton(".btn-signup");
+				$scope.signupLoading = false;
 			})
 			.error(function(err) {
 				console.log(err);
-				$scope.loading = 0;
 				$scope.failedAuth = true;
-				enableButton(".btn-signup");
+				$scope.signupLoading = false;
 			});
-	}
-
-	var disableButton = function (btn_class_name) {
-		$(btn_class_name)
-			.addClass('disabled')
-			.find('span')
-			.not('.spin')
-			.hide();
-	}
-
-	var enableButton = function (btn_class_name) {
-		$(btn_class_name)
-			.removeClass('disabled')
-			.find('span')
-			.not('.spin')
-			.show();;
 	}
 
 });
