@@ -23,6 +23,7 @@ app.factory('loginFactory', function($http){
 app.controller('loginController', function($scope, $location, loginFactory) {
 	
 	$scope.failedAuth = false;
+	$scope.failedSignup = false;
 	$scope.loginData = {};
 
 	$scope.loading = 0;
@@ -61,7 +62,7 @@ app.controller('loginController', function($scope, $location, loginFactory) {
 			})
 			.error(function(err) {
 				console.log(err);
-				$scope.failedAuth = true;
+				$scope.failedSignup = true;
 				$scope.signupLoading = false;
 			});
 	}

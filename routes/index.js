@@ -54,7 +54,7 @@ router.post('/api/v1/user/create', function(req, res, next) {
 	var password = req.body.password;
 
 	dal.createNewUser(firstname, lastname, email, password, function(err, user) {
-  	if (err) res.json(err);
+  	if (err) res.status(400).json(err);
   	else {
   		req.login(user, function(err) {
 				if (err) return next(err);

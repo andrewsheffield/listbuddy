@@ -14,6 +14,10 @@
       <span>Incorrect credentials. Please try again.</span>
     </div>
 
+    <div class="alert alert-danger" role="alert" ng-if="failedSignup">
+      <span>There already exists an account with that email.</span>
+    </div>
+
     <!--Tab buttons and styling-->
     <h3>
       <ul class="nav nav-tabs nav-justified" role="tablist">
