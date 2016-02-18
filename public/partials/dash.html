@@ -81,7 +81,7 @@
                   <span class="input-group-btn">
 
                   <!--Add New List Button-->
-                  <button class="btn btn-primary" ng-click="addNewList()" ng-disabled="loadingAddNewList">
+                  <button class="btn btn-primary" ng-click="addNewList()" ng-disabled="loadingAddNewList || !newList.name">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-hide="loadingAddNewList"></span>
                     <span class="glyphicon glyphicon-repeat spin" aria-hidden="true" ng-hide="!loadingAddNewList"></span>
                   </button><!--/new list button-->
@@ -211,8 +211,9 @@
                 <div class="input-group input-group-sm">
                   <input type="text" class="form-control" placeholder="Item name..." ng-model="newItem.name" />
                   <span class="input-group-btn">
-                  <button class="btn btn-primary"  ng-click="addNewSimple(newItem.name)">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                  <button class="btn btn-primary"  ng-click="addNewSimple(newItem.name)" ng-disabled="loadingNewItem || !newItem.name">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-hide="loadingNewItem"></span>
+                    <span class="glyphicon glyphicon-repeat spin" aria-hidden="true" ng-hide="!loadingNewItem"></span>
                   </button>
                   </span>
                 </div>

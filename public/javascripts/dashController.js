@@ -149,15 +149,17 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
   //Item Class
   $scope.items = [];
   $scope.newItem = {};
+  $scope.loadingNewItem = false;
   $scope.completed = [];
   $scope.notCompleted = [];
   $scope.trashed = [];
-  $scope.populateItems = function(){
+  $scope.populateItems = function(next){
     $scope.incLoadCount();
     DashFactory.getItems($scope.selectedList.listid)
       .success(function(items) {
         $scope.decLoadCount();
         $scope.items = items;
+        if (next) next();
       })
       .error(function(err) {
         $scope.decLoadCount();
@@ -165,50 +167,64 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
       });
   };
   $scope.addNewSimple = function(newName){
-    $scope.incLoadCount();
+
+    $scope.loadingNewItem = true;
+
     var newItem = {
       name: newName
     };
     DashFactory.createNewItem($scope.selectedList.listid, newItem)
       .success(function() {
-        $scope.decLoadCount();
-        $scope.populateItems();
+
+        $scope.populateItems(function() {
+          $scope.newItem = null;
+          $scope.loadingNewItem = false;
+        });
+
       })
       .error(function(err) {
+        $scope.loadingNewItem = false;
         console.log(err);
-        $scope.decLoadCount();
       });
   };
   $scope.addNewFinancial = function(newName, amount){
-    $scope.incLoadCount();
+    $scope.loadingNewItem = true;
     var newItem = {
       name: newName,
       price: amount
     };
     DashFactory.createNewItem($scope.selectedList.listid, newItem)
       .success(function() {
-        $scope.decLoadCount();
-        $scope.populateItems();
+
+        $scope.populateItems(function() {
+          $scope.newItem = null;
+          $scope.loadingNewItem = false;
+        });
+
       })
       .error(function(err) {
         console.log(err);
-        $scope.decLoadCount();
+        $scope.loadingNewItem = false;
       });
   };
   $scope.addNewGift = function(newName, newRecipient){
-    $scope.incLoadCount();
+    $scope.loadingNewItem = true;
     var newItem = {
       name: newName,
       recipient: newRecipient
     };
     DashFactory.createNewItem($scope.selectedList.listid, newItem)
       .success(function() {
-        $scope.decLoadCount();
-        $scope.populateItems();
+
+        $scope.populateItems(function() {
+          $scope.newItem = null;
+          $scope.loadingNewItem = false;
+        });
+
       })
       .error(function(err) {
         console.log(err);
-        $scope.decLoadCount();
+        $scope.loadingNewItem = false;
       });
   };
   $scope.setItemComplete = function(itemid){

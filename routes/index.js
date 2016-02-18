@@ -242,6 +242,8 @@ router.delete('/api/v1/lists/:listid/users/:friendid', function(req, res, next) 
 // Create New Item
 router.post('/api/v1/lists/:listid', function(req, res, next) {
 
+	if (!req.body.name) return res.status(401).json({message: "Name field is required"});
+
 	var userid = req.user.id; //Get from auth
 	var listid = req.params.listid;
 	var name = req.body.name;
@@ -249,8 +251,8 @@ router.post('/api/v1/lists/:listid', function(req, res, next) {
 	var recipient = (req.body.recipient) ? req.body.recipient : "";
 
 	dal.createNewItem(listid, name, price, recipient, userid, function(err, message) {
-		if (err) res.status(500).json(err);
-		else res.json(message);
+		if (err) return res.status(500).json(err);
+		else return res.json(message);
 	});
 
 });
