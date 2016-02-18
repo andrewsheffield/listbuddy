@@ -97,6 +97,7 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
       .success(function() {
         $scope.decLoadCount();
         $scope.populateLists();
+        $scope.selectedList = null;
       })
       .error(function(err) {
         console.log(err);
