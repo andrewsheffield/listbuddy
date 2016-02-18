@@ -1,3 +1,20 @@
+/*
+This directive allows us to pass a function in on an enter key to do what we want.
+ */
+app.directive('ngEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.ngEnter);
+                });
+ 
+                event.preventDefault();
+            }
+        });
+    };
+});
+
 app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
   
   //Set connection status to false if ajax connection issue occurs
@@ -61,17 +78,19 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
       });
   };
   $scope.addNewList = function(){
-    $scope.loadingAddNewList = true;
-    DashFactory.createList($scope.newList)
-      .success(function() {
-        $scope.populateLists(function() {
-          $scope.resetNewList();
-          $scope.loadingAddNewList = false;
+    if ($scope.newList.name) {
+      $scope.loadingAddNewList = true;
+      DashFactory.createList($scope.newList)
+        .success(function() {
+          $scope.populateLists(function() {
+            $scope.resetNewList();
+            $scope.loadingAddNewList = false;
+          });
+        })
+        .error(function(err) {
+          console.log(err);
         });
-      })
-      .error(function(err) {
-        console.log(err);
-      });
+      }
   };
   $scope.setSelectedList = function(list){
     $scope.selectedList = list;
@@ -177,7 +196,7 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
       .success(function() {
 
         $scope.populateItems(function() {
-          $scope.newItem = null;
+          $scope.newItem.name = "";
           $scope.loadingNewItem = false;
         });
 

@@ -77,7 +77,7 @@
             <div class="col-md-12">
               <div class="newlist">
                 <div class="input-group">
-                  <input type="text" class="form-control" placeholder="New list name..." ng-model="newList.name" />
+                  <input type="text" class="form-control" placeholder="New list name..." ng-model="newList.name" ng-enter="addNewList();" />
                   <span class="input-group-btn">
 
                   <!--Add New List Button-->
@@ -209,7 +209,7 @@
               <div class="additem" ng-if="selectedList.type==1">
                 <span>New Item:</span>
                 <div class="input-group input-group-sm">
-                  <input type="text" class="form-control" placeholder="Item name..." ng-model="newItem.name" />
+                  <input type="text" class="form-control" placeholder="Item name..." ng-model="newItem.name" ng-enter="addNewSimple(newItem.name)" />
                   <span class="input-group-btn">
                   <button class="btn btn-primary"  ng-click="addNewSimple(newItem.name)" ng-disabled="loadingNewItem || !newItem.name">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-hide="loadingNewItem"></span>
