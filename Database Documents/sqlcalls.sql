@@ -52,9 +52,9 @@ SELECT * FROM x;
 -- Get users of a list if user belongs to list
 SELECT DISTINCT userid, firstname, lastname
 FROM userlists, users 
-WHERE userlists.userid=users.id AND listid=2
+WHERE userlists.userid=users.id AND listid=12 AND userid<>4
 AND EXISTS (
-	SELECT * FROM userlists WHERE userid=5 AND listid=2
+	SELECT * FROM userlists WHERE userid=4 AND listid=12
 )
 ORDER BY lastname, firstname;
 

@@ -61,7 +61,7 @@ queries.deleteSelfFromList = "WITH x AS ( "
 // Get users of a list if user belongs to list [listid, userid]
 queries.getUsersOfAList = "SELECT DISTINCT userid, firstname, lastname "
 	+ "FROM userlists, users "
-	+ "WHERE userlists.userid=users.id AND listid=($1) "
+	+ "WHERE userlists.userid=users.id AND listid=($1)  AND userid<>($2) "
 	+ "AND EXISTS ( "
 		+ "SELECT * FROM userlists WHERE userid=($2) AND listid=($1) "
 	+ ") "
