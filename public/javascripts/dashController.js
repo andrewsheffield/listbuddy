@@ -42,17 +42,18 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
   $scope.newList = { type: 1 }; //inits default type to simple
   $scope.lists = [];
   $scope.selectedList = null;
+  $scope.loadingAddNewList = false;
   $scope.resetNewList = function() {
-    $scope.newList = {};
+    $scope.newList.name = "";
     $scope.newList.type = 1;
   }
-  $scope.populateLists = function(){
+  $scope.populateLists = function(next){
     $scope.incLoadCount();
     DashFactory.getLists()
       .success(function(lists) {
         $scope.decLoadCount();
         $scope.lists = lists;
-        $scope.setSelectedList($scope.lists[0]);
+        if (next) next();
       })
       .error(function(err) {
         console.log(err);
@@ -60,16 +61,16 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
       });
   };
   $scope.addNewList = function(){
-    $scope.incLoadCount();
+    $scope.loadingAddNewList = true;
     DashFactory.createList($scope.newList)
       .success(function() {
-        $scope.decLoadCount();
-        $scope.populateLists();
-        $scope.resetNewList();
+        $scope.populateLists(function() {
+          $scope.resetNewList();
+          $scope.loadingAddNewList = false;
+        });
       })
       .error(function(err) {
         console.log(err);
-        $scope.decLoadCount();
       });
   };
   $scope.setSelectedList = function(list){
@@ -111,7 +112,6 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
       .success(function(lists) {
         $scope.decLoadCount();
         $scope.pendingLists = lists;
-        $scope.setSelectedList($scope.lists[0]);
       })
       .error(function(err) {
         console.log(err);

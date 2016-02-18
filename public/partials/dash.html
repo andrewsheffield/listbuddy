@@ -79,10 +79,13 @@
                 <div class="input-group">
                   <input type="text" class="form-control" placeholder="New list name..." ng-model="newList.name" />
                   <span class="input-group-btn">
-                  <button class="btn btn-primary" ng-click="addNewList()">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                  <span class="glyphicon glyphicon-repeat spin hidden" aria-hidden="true"></span>
-                  </button>
+
+                  <!--Add New List Button-->
+                  <button class="btn btn-primary" ng-click="addNewList()" ng-disabled="loadingAddNewList">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-hide="loadingAddNewList"></span>
+                    <span class="glyphicon glyphicon-repeat spin" aria-hidden="true" ng-hide="!loadingAddNewList"></span>
+                  </button><!--/new list button-->
+
                   </span>
                 </div>
                 List Type: &nbsp;
