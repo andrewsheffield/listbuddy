@@ -18,6 +18,10 @@
       <span>There already exists an account with that email.</span>
     </div>
 
+    <div class="alert alert-danger" role="alert" ng-if="passwordMismatch">
+      <span>Your passwords did not match, try again.</span>
+    </div>
+
     <!--Tab buttons and styling-->
     <h3>
       <ul class="nav nav-tabs nav-justified" role="tablist">
@@ -37,25 +41,25 @@
       <!--Login Tab-->
       <div class="tab-pane fade in active" id="login">
 
-        <form class="form-login" name="login">
+        <form class="form-login" name="loginform" novalidate >
           <div class="input-group">
             <div class="input-group-addon">
               <span class="glyphicon glyphicon-envelope"></span>
             </div>
-            <input class="form-control" placeholder="Email Address" type="email" name="username" ng-model="loginData.email" />
+            <input class="form-control" placeholder="Email Address" type="email" name="username" ng-model="loginData.email" required />
           </div>
           <div class="input-group">
             <div class="input-group-addon">
               <span class="glyphicon glyphicon-lock"></span>
             </div>
-            <input class="form-control" placeholder="Password" type="password" name="lpassword" ng-model="loginData.password" />
+            <input class="form-control" placeholder="Password" type="password" name="lpassword" ng-model="loginData.password" required />
           </div>
           <div class="checkbox hidden">
             <label>
               <input type="checkbox" value="true" name="rememberme" type="string" ng-model="rmCheck" /> Remember Me
             </label>
           </div>
-          <button class="btn btn-primary btn-lg btn-block btn-login" ng-click="attemptLogin()" ng-disabled="loginLoading">
+          <button class="btn btn-primary btn-lg btn-block btn-login" ng-click="attemptLogin()" ng-disabled="loginLoading || !loginform.$valid">
             <span class="glyphicon glyphicon-home" ng-if="!loginLoading"></span>
             <span ng-if="!loginLoading">Login</span>
             <span class="glyphicon glyphicon-repeat spin" ng-if="loginLoading"></span>
@@ -65,41 +69,41 @@
 
       <!--Sign up Tab-->
       <div class="tab-pane fade" id="signup">
-        <form class="form-signup" role="form">
+        <form class="form-signup" role="form" name="signupform" novalidate >
           <div class="input-group">
             <div class="input-group-addon">
               <span class="glyphicon glyphicon-user"></span>
             </div>
-            <input class="form-control" placeholder="First Name" type="text" name="sfirstname" ng-model="signup.firstname"/>
+            <input class="form-control" placeholder="First Name" type="text" name="sfirstname" ng-model="signup.firstname" required />
           </div>
           <div class="input-group">
             <div class="input-group-addon">
               <span class="glyphicon glyphicon-user"></span>
             </div>
-            <input class="form-control" placeholder="Last Name" type="text" name="slastname" ng-model="signup.lastname"/>
+            <input class="form-control" placeholder="Last Name" type="text" name="slastname" ng-model="signup.lastname" required />
           </div>
           <div class="input-group">
             <div class="input-group-addon">
               <span class="glyphicon glyphicon-envelope"></span>
             </div>
-            <input class="form-control" placeholder="Email Address" type="text" name="semail" ng-model="signup.email"/>
+            <input class="form-control" placeholder="Email Address" type="email" name="semail" ng-model="signup.email" required />
           </div>
           <div class="input-group">
             <div class="input-group-addon">
               <span class="glyphicon glyphicon-lock"></span>
             </div>
-            <input class="form-control" placeholder="Password" type="password" name="spassword" ng-model="signup.password" />
+            <input class="form-control" placeholder="Password" type="password" name="spassword" ng-model="signup.password" required />
           </div>
           <div class="input-group">
             <div class="input-group-addon">
               <span class="glyphicon glyphicon-lock"></span>
             </div>
-            <input class="form-control" placeholder="Verify Password" type="password" />
+            <input class="form-control" placeholder="Verify Password" type="password" ng-model="signup.confirmPassword" required />
           </div>
           <div class="input-group">
             &nbsp;
           </div>
-          <button class="btn btn-success btn-lg btn-block" ng-click="attemptSignup()" ng-disabled="signupLoading">
+          <button class="btn btn-success btn-lg btn-block" ng-click="attemptSignup()" ng-disabled="signupLoading || !signupform.$valid">
             <span class="glyphicon glyphicon-pencil" ng-if="!signupLoading"></span>
             <span ng-if="!signupLoading">Sign Up</span>
             <span class="glyphicon glyphicon-repeat spin" ng-if="signupLoading"></span>

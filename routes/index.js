@@ -48,9 +48,21 @@ router.get('/api/v1/user/auth', function(req, res, next) {
 //Create a new user, returns user when created
 router.post('/api/v1/user/create', function(req, res, next) {
 
-	var firstname = req.body.firstname;
-	var lastname = req.body.lastname;
-	var email = req.body.email;
+	String.prototype.properCaps = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
+	}
+
+	if (!req.body.firstname 
+			|| !req.body.lastname
+			|| !req.body.email
+			|| !req.body.password)
+	{
+		return res.status(400).json({message: "Missing values for input."});
+	}
+
+	var firstname = req.body.firstname.properCaps();
+	var lastname = req.body.lastname.properCaps();
+	var email = req.body.email.toLowerCase();
 	var password = req.body.password;
 
 	dal.createNewUser(firstname, lastname, email, password, function(err, user) {
@@ -58,7 +70,7 @@ router.post('/api/v1/user/create', function(req, res, next) {
   	else {
   		req.login(user, function(err) {
 				if (err) return next(err);
-				else res.json(user);
+				else return res.json(user);
 			});
   	}
   });

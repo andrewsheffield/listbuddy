@@ -24,9 +24,9 @@ app.controller('loginController', function($scope, $location, loginFactory) {
 	
 	$scope.failedAuth = false;
 	$scope.failedSignup = false;
+	$scope.passwordMismatch = false;
 	$scope.loginData = {};
-
-	$scope.loading = 0;
+	//$scope.signup = {};
 
 	$scope.checkForAuth = function() {
     loginFactory.checkForAuth()
@@ -54,17 +54,24 @@ app.controller('loginController', function($scope, $location, loginFactory) {
 	}
 
 	$scope.attemptSignup = function() {
-		$scope.signupLoading = true;
-		loginFactory.attemptSignup($scope.signup)
-			.success(function(user) {
-				$location.path('/dash');
-				$scope.signupLoading = false;
-			})
-			.error(function(err) {
-				console.log(err);
-				$scope.failedSignup = true;
-				$scope.signupLoading = false;
-			});
+		if ($scope.signup.password != $scope.signup.confirmPassword) {
+			$scope.passwordMismatch = true;
+		} else {
+			$scope.signupLoading = true;
+			$scope.passwordMismatch = false;
+
+			loginFactory.attemptSignup($scope.signup)
+				.success(function(user) {
+					$location.path('/dash');
+					$scope.signupLoading = false;
+				})
+				.error(function(err) {
+					console.log(err);
+					$scope.failedSignup = true;
+					$scope.signupLoading = false;
+				});
+		}
+		
 	}
 
 });
