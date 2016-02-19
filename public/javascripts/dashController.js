@@ -216,7 +216,8 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
       .success(function() {
 
         $scope.populateItems(function() {
-          $scope.newItem = null;
+          $scope.newItem.name = "";
+          $scope.newItem.amount = "";
           $scope.loadingNewItem = false;
         });
 
@@ -236,7 +237,8 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
       .success(function() {
 
         $scope.populateItems(function() {
-          $scope.newItem = null;
+          $scope.newItem.name = "";
+          $scope.newItem.recipient = "";
           $scope.loadingNewItem = false;
         });
 

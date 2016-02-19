@@ -230,8 +230,9 @@
                   <span class="input-group-addon" id="sizing-addon2">$</span>
                   <input type="text" class="form-control" placeholder="Amount example: 10.15" ng-model="newItem.amount " />
                   <span class="input-group-btn">
-                  <button class="btn btn-primary"  ng-click="addNewFinancial(newItem.name, newItem.amount)">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                  <button class="btn btn-primary"  ng-click="addNewFinancial(newItem.name, newItem.amount)" ng-disabled="loadingNewItem || !newItem.name || !newItem.amount">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-hide="loadingNewItem"></span>
+                    <span class="glyphicon glyphicon-repeat spin" aria-hidden="true" ng-hide="!loadingNewItem"></span>
                   </button>
                   </span>
                 </div>
@@ -247,9 +248,9 @@
                 <div class="input-group input-group-sm">
                   <input type="text" class="form-control" placeholder="Recipient..." ng-model="newItem.recipient" />
                   <span class="input-group-btn">
-                  <button class="btn btn-primary"  ng-click="addNewGift(newItem.name, newItem.recipient)">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                  <span class="glyphicon glyphicon-repeat spin hidden" aria-hidden="true"></span>
+                  <button class="btn btn-primary"  ng-click="addNewGift(newItem.name, newItem.recipient)" ng-disabled="loadingNewItem || !newItem.name || !newItem.recipient">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-hide="loadingNewItem"></span>
+                    <span class="glyphicon glyphicon-repeat spin" aria-hidden="true" ng-hide="!loadingNewItem"></span>
                   </button>
                   </span>
                 </div>
@@ -263,7 +264,7 @@
           <div class="row">
             <div class="col-md-12">
 
-              <div class="panel panel-default" ng-if="items.length==0">
+              <div class="panel panel-default" ng-if="notCompleted==0">
                 <div class="panel-body">
                   <div class="col-md-12">
                     <span>This list contains no items.</span>
@@ -311,6 +312,14 @@
           <div class="row">
             <div class="col-md-12">
 
+              <div class="panel panel-default" ng-if="completed==0">
+                <div class="panel-body">
+                  <div class="col-md-12">
+                    <span>This list contains no completed items.</span>
+                  </div>
+                </div>
+              </div>
+
               <!--Completed Item-->
               <div class="item-panel panel panel-default" ng-repeat="item in completed = (items | filter:{completed: true, trashed: false})">
                 <div class="panel-body">
@@ -332,7 +341,7 @@
                   </div>
                   <div class="col-md-2">
                     <div class="remove-item">
-                      <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="trashItem()"></span>
+                      <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="trashItem(item.id)"></span>
                     </div>
                   </div>
                 </div>
@@ -350,6 +359,14 @@
 
           <div class="row">
             <div class="col-md-12">
+
+             <div class="panel panel-default" ng-if="trashed==0">
+                <div class="panel-body">
+                  <div class="col-md-12">
+                    <span>This list contains no trashed items.</span>
+                  </div>
+                </div>
+              </div>
 
               <!--Item-->
               <div class="item-panel panel panel-default" ng-repeat="item in trashed = (items | filter:{trashed: true})">
