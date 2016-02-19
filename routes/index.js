@@ -216,9 +216,10 @@ router.put('/api/v1/lists/:listid', function(req, res, next) {
 // Get users by email
 router.get('/api/v1/search/users/:searchString', function(req, res, next) {
 
+	var userid = req.user.id;
 	var emailSubstring = req.params.searchString;
 
-	dal.getUsersByEmail(emailSubstring, function(err, users) {
+	dal.getUsersByEmail(emailSubstring, userid, function(err, users) {
 		if (err) res.status(500).json(err);
 		else res.json(users);
 	});

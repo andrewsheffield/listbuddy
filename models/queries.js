@@ -94,9 +94,9 @@ queries.updateListName = "UPDATE lists "
 
 
 
-// Search for users to add to a list [email]
+// Search for users to add to a list [email, userid]
 queries.getUsersByEmail = "SELECT * FROM users "
-	+ "WHERE email ~* ('.*'||$1||'.*') "
+	+ "WHERE email ~* ('.*'||$1||'.*') AND id<>($2) "
 	+ "LIMIT 10;";
 
 

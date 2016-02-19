@@ -84,7 +84,10 @@ SET name='bleh bleh'
 WHERE id=13 AND creator=1;
 
 -- Search for users to add to a list
-SELECT * FROM users WHERE email ~* '.*drew@test.com.*' LIMIT 10;
+SELECT * FROM users 
+WHERE email ~* '.*drew@test.com.*' 
+AND id<>1
+LIMIT 10;
 
 -- DELETE other user if user creator the list
 WITH x AS (
