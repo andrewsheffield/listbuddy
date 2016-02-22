@@ -58,6 +58,15 @@ AND EXISTS (
 )
 ORDER BY lastname, firstname;
 
+-- Get pending users of a list if user belongs to list
+SELECT DISTINCT userid, firstname, lastname
+FROM pendinguserlists, users 
+WHERE pendinguserlists.userid=users.id AND listid=40
+AND EXISTS (
+	SELECT * FROM userlists WHERE userid=11 AND listid=40
+)
+ORDER BY lastname, firstname;
+
 -- Invite a user to join a list
 INSERT INTO pendinguserlists (userid, listid)
 SELECT 4, 1

@@ -270,6 +270,31 @@ dal.getUsersOfAList = function(listid, userid, callback) {
 
 };
 
+dal.getPendingOfAList = function(listid, userid, callback) {
+
+	var users = [];
+
+	pg.connect(connectionString, function(err, client, done) {
+		if(err) {
+			done();
+			return callback(err);
+		}
+
+		var query = client.query(queries.getPendingOfAList, [listid, userid]);
+
+		query.on('row', function(row) {
+			users.push(row);
+		});
+
+		query.on('end', function() {
+			done();
+			return callback(err, users);
+		});
+
+	});
+
+};
+
 dal.inviteFriendToList = function(friendid, listid, userid, callback) {
 
 	pg.connect(connectionString, function (err, client, done) {

@@ -42,6 +42,11 @@ app.factory('DashFactory', function($http){
     return $http.get(url);
   }
 
+  factory.getPendingUsers = function(listid) {
+    var url = baseURL + "lists/" + listid + "/pendingusers";
+    return $http.get(url);
+  }
+
   factory.inviteFriend = function(listid, friendid) {
     var url = baseURL + "lists/" + listid + "/users/" + friendid;
     return $http.put(url);

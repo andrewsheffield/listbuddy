@@ -152,8 +152,23 @@ router.get('/api/v1/lists/:listid/users', function(req, res, next) {
 
 	dal.getUsersOfAList(listid, userid, function(err, users) {
 
-		if (err) res.status(500).json(err);
-		else res.json(users);
+		if (err) return res.status(500).json(err);
+		else return res.json(users);
+
+	});
+
+});
+
+//Get Pending of a list
+router.get('/api/v1/lists/:listid/pendingusers', function(req, res, next) {
+
+	var listid = req.params.listid;
+	var userid = req.user.id; // get from auth
+
+	dal.getPendingOfAList(listid, userid, function(err, users) {
+
+		if (err) return res.status(500).json(err);
+		else return res.json(users);
 
 	});
 

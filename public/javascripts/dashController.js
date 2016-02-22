@@ -96,6 +96,7 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
     $scope.selectedList = list;
     $scope.populateItems();
     $scope.populateListUsers();
+    $scope.populatePendingUsers();
   };
   $scope.updateListName = function(newListName){
     $scope.incLoadCount();
@@ -295,6 +296,7 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
   
   //Users class
   $scope.listUsers = [];
+  $scope.pendingUsers = [];
   $scope.searchUsers = [];
   $scope.userSearch = {
     text: ""
@@ -309,6 +311,18 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
       .success(function(users) {
         $scope.decLoadCount();
         $scope.listUsers = users;
+      })
+      .error(function(err) {
+        $scope.decLoadCount();
+        console.log(err);
+      });
+  };
+  $scope.populatePendingUsers = function() {
+    $scope.incLoadCount();
+    DashFactory.getPendingUsers($scope.selectedList.listid)
+      .success(function(users) {
+        $scope.decLoadCount();
+        $scope.pendingUsers = users;
       })
       .error(function(err) {
         $scope.decLoadCount();
@@ -335,6 +349,7 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
       .success(function() {
         $scope.decLoadCount();
         $scope.populateListUsers();
+        $scope.populatePendingUsers();
       })
       .error(function(err) {
         $scope.decLoadCount();
@@ -347,6 +362,7 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
       .success(function() {
         $scope.decLoadCount();
         $scope.userSearch.text = '';
+        $scope.populatePendingUsers();
       })
       .error(function(err) {
         $scope.decLoadCount();
