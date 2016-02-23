@@ -419,7 +419,27 @@ dal.deleteOtherUser = function(friendid, listid, userid, callback) {
 
 	});
 
-}
+};
+
+dal.removePendingUser = function(pendinguserid, listid, userid, callback) {
+
+	pg.connect(connectionString, function(err, client, done) {
+		//if error close connection and return err
+		if (err) {
+			done();
+			return callback(err);
+		}
+
+		var query = client.query(queries.removePendingUser, [pendinguserid, listid, userid]);
+
+		query.on('end', function() {
+			done();
+			return callback(err, {message: "Pending User has been removed"});
+		});
+
+	});
+
+};
 
 dal.createNewItem = function(listid, name, price, recipient, creatorid, callback) {
 

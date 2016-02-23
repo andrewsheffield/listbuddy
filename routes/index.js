@@ -255,6 +255,19 @@ router.delete('/api/v1/lists/:listid/users/:friendid', function(req, res, next) 
 
 });
 
+router.delete('/api/v1/lists/:listid/pendingusers/:pendinguserid', function(req, res, next) {
+
+	var userid = req.user.id; //Get from auth
+	var listid = req.params.listid;
+	var pendinguserid = req.params.pendinguserid;
+
+	dal.removePendingUser(pendinguserid, listid, userid, function(err, message) {
+		if (err) return res.status(500).json(err);
+		else res.json(message);
+	});
+
+});
+
 // Create New Item
 router.post('/api/v1/lists/:listid', function(req, res, next) {
 

@@ -349,10 +349,18 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
       .success(function() {
         $scope.decLoadCount();
         $scope.populateListUsers();
-        $scope.populatePendingUsers();
       })
       .error(function(err) {
         $scope.decLoadCount();
+        console.log(err);
+      });
+  };
+  $scope.removePendingUser = function(pendinguserid) {
+    DashFactory.removePendingUser($scope.selectedList.listid, pendinguserid) 
+      .success(function() {
+        $scope.populatePendingUsers();
+      })
+      .error(function(err) {
         console.log(err);
       });
   };

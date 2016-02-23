@@ -110,6 +110,14 @@ SELECT * FROM x WHERE EXISTS
 	SELECT * FROM lists WHERE listid=1 AND CREATOR=1
 );
 
+-- Delete a pending user request from a managed list
+DELETE FROM pendinguserlists
+WHERE userid=4 and listid=40
+AND EXISTS
+(
+	SELECT * FROM userlists WHERE userid=11 AND listid=40
+);
+
 -- Create an item for a list user is apart of
 INSERT INTO listitems (listid, name, price, recipient, creator)
 SELECT 1, 'New Item and Such', 0, '', 1

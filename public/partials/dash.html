@@ -454,14 +454,24 @@
             </div>
           </div>
 
+          <div class="panel panel-default" ng-if="listUsers.length==0 && userSearch.text==''">
+            <div class="panel-body">
+              <div class="col-md-12">
+                <span>No other users are attached to this list.</span>
+              </div>
+            </div>
+          </div>
+
+          <!--Pending User list-->
+          <h4 ng-if="userSearch.text=='' && pendingUsers.length > 0">Pending Users</h4>
           <div class="user-panel panel panel-default" ng-repeat="user in pendingUsers" ng-if="userSearch.text==''">
             <div class="panel-body">
               <div class="col-md-8">
-                <h4>{{ user.firstname + " " + user.lastname }}</h4>
+                <h4>{{:: user.firstname + " " + user.lastname }}</h4>
               </div>
               <div class="col-md-4">
                 <div class="remove-item">
-                  <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="removeUser(user.userid)"></span>
+                  <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="removePendingUser(user.userid)"></span>
                 </div>
               </div>
             </div>
@@ -480,13 +490,7 @@
             </div>
           </div>
 
-          <div class="panel panel-default" ng-if="listUsers.length==0 && userSearch.text==''">
-            <div class="panel-body">
-              <div class="col-md-12">
-                <span>No other users are attached to this list.</span>
-              </div>
-            </div>
-          </div>
+          
 
           <div class="panel panel-default" ng-if="searchUsers.length==0 && userSearch.text!=''">
             <div class="panel-body">

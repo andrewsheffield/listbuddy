@@ -77,6 +77,11 @@ app.factory('DashFactory', function($http){
     return $http.delete(url);
   }
 
+  factory.removePendingUser = function(listid, pendinguserid) {
+    var url = baseURL + "lists/" + listid + "/pendingusers/" + pendinguserid;
+    return $http.delete(url);
+  }
+
   factory.createNewItem = function(listid, newItem) {
     var url = baseURL + "lists/" + listid;
     return $http.post(url, newItem);

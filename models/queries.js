@@ -108,8 +108,6 @@ queries.getUsersByEmail = "SELECT * FROM users "
 	+ "WHERE email ~* ('.*'||$1||'.*') AND id<>($2) "
 	+ "LIMIT 10;";
 
-
-
 // DELETE other user if user is creator of the list [friendid, listid, userid]
 queries.deleteOtherUser = "WITH x AS ( "
 		+ "DELETE FROM userlists "
@@ -120,6 +118,14 @@ queries.deleteOtherUser = "WITH x AS ( "
 	+ "SELECT * FROM x WHERE EXISTS "
 	+ "( "
 		+ "SELECT * FROM lists WHERE listid=($2) AND CREATOR=($3) "
+	+ ");";
+
+//remove a pending user from the pending list [pendinguserid, listid, userid]
+queries.removePendingUser = "DELETE FROM pendinguserlists "
+	+ "WHERE userid=($1) and listid=($2) "
+	+ "AND EXISTS "
+	+ "( "
+		+ "SELECT * FROM userlists WHERE userid=($3) AND listid=($2) "
 	+ ");";
 
 // Create an item for a list user is apart of [listid, name, price, recipient, creatorid]
