@@ -15,7 +15,9 @@ app.directive('ngEnter', function () {
     };
 });
 
-app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
+app.controller('ListBuddyCont', function($scope, $location, $interval, DashFactory) {
+
+  var refreshInterval = null;
   
   //Set connection status to false if ajax connection issue occurs
   $scope.connectionStatus = true;
@@ -36,6 +38,9 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
     DashFactory.checkForAuth()
       .success(function(user) {
         $scope.user = user;
+        $scope.populateLists();
+        $scope.populatePendingLists();
+        refreshInterval = $interval(refresh, 5000);
         $scope.decLoadCount();
       })
       .error(function(err) {
@@ -381,8 +386,15 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
 
   var init = function() {
     $scope.checkForAuth();
-    $scope.populateLists();
-    $scope.populatePendingLists();
   }();
+
+  var refresh = function() {
+    $scope.populatePendingLists();
+    if ($scope.selectedList) {
+      $scope.populateItems();
+      $scope.populateListUsers();
+      $scope.populatePendingUsers();
+    }
+  };
   
 });
