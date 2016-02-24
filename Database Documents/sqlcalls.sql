@@ -94,8 +94,17 @@ WHERE id=13 AND creator=1;
 
 -- Search for users to add to a list
 SELECT * FROM users 
-WHERE email ~* '.*drew@test.com.*' 
-AND id<>1
+WHERE email ~* '.*@test.com.*' 
+AND id NOT IN (
+	SELECT userid
+	FROM userlists
+	WHERE listid=39
+)
+AND id NOT IN (
+	SELECT userid
+	FROM pendinguserlists
+	WHERE listid=39
+)
 LIMIT 10;
 
 -- DELETE other user if user creator the list

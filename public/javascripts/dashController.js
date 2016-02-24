@@ -332,7 +332,7 @@ app.controller('ListBuddyCont', function($scope, $location, DashFactory) {
   $scope.populateSearchUsers = function() {
     $scope.incLoadCount();
     if ($scope.userSearch.text != '') {
-      DashFactory.searchUsers($scope.userSearch.text)
+      DashFactory.searchUsers($scope.userSearch.text, $scope.selectedList.listid)
       .success(function(users) {
         $scope.decLoadCount();
         $scope.searchUsers = users;

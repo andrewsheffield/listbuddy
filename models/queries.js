@@ -101,11 +101,17 @@ queries.updateListName = "UPDATE lists "
 	+ "SET name=($1) " 
 	+ "WHERE id=($2) AND creator=($3);";
 
-
-
-// Search for users to add to a list [email, userid]
+// Search for users to add to a list [email, listid]
 queries.getUsersByEmail = "SELECT * FROM users "
-	+ "WHERE email ~* ('.*'||$1||'.*') AND id<>($2) "
+	+ "WHERE email ~* ('.*'||$1||'.*') "
+	+ "AND id NOT IN ( "
+		+ "SELECT userid FROM userlists "
+		+ "WHERE listid=($2) "
+	+ ") "
+	+ "AND id NOT IN ( "
+		+ "SELECT userid FROM pendinguserlists "
+		+ "WHERE listid=($2) "
+	+ ") "
 	+ "LIMIT 10;";
 
 // DELETE other user if user is creator of the list [friendid, listid, userid]

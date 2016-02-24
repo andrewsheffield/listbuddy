@@ -375,7 +375,7 @@ dal.updateListName = function(listName, listid, creatorID, callback){
 
 }
 
-dal.getUsersByEmail = function(email, userid, callback) {
+dal.getUsersByEmail = function(email, listid, callback) {
 
 	var users = [];
 
@@ -386,7 +386,7 @@ dal.getUsersByEmail = function(email, userid, callback) {
 			return callback(err, results);
 		}
 		
-		var query = client.query(queries.getUsersByEmail, [email, userid]);
+		var query = client.query(queries.getUsersByEmail, [email, listid]);
 
 		query.on('row', function(row) {
 			users.push(row);

@@ -67,8 +67,8 @@ app.factory('DashFactory', function($http){
     return $http.put(url, listUpdate);
   }
 
-  factory.searchUsers = function(searchString) {
-    var url = baseURL + "search/users/" + searchString;
+  factory.searchUsers = function(searchString, listid) {
+    var url = baseURL + "lists/" + listid + "/usersearch/" + searchString;
     return $http.get(url);
   }
 
