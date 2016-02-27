@@ -418,10 +418,11 @@
           <div class="settings">
             <h4>Users & Settings</h4>
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Update the list name..." ng-model="newListName" />
+              <input type="text" class="form-control" placeholder="Update the list name..." ng-model="updateList.name" ng-enter="updateListName()"/>
               <span class="input-group-btn">
-              <button class="btn btn-primary" type="button" ng-click="updateListName(newListName)">
-                <span>Save</span>
+              <button class="btn btn-primary" type="button" ng-click="updateListName()" ng-disabled="updateList.name=='' || !updateList.name || loadingNewName">
+                <span ng-if="!loadingNewName">Save</span>
+                <span class="glyphicon glyphicon-repeat spin" aria-hidden="true" ng-if="loadingNewName"></span>
               </button>
               </span>
             </div>

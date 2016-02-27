@@ -65,6 +65,8 @@ app.controller('ListBuddyCont', function($scope, $location, $interval, DashFacto
   $scope.lists = [];
   $scope.selectedList = null;
   $scope.loadingAddNewList = false;
+  $scope.loadingNewName = false;
+  $scope.updateList = { name: "" };
   $scope.resetNewList = function() {
     $scope.newList.name = "";
     $scope.newList.type = 1;
@@ -104,17 +106,18 @@ app.controller('ListBuddyCont', function($scope, $location, $interval, DashFacto
     $scope.populateListUsers();
     $scope.populatePendingUsers();
   };
-  $scope.updateListName = function(newListName){
-    $scope.incLoadCount();
-    var listUpdate = { listname: newListName };
+  $scope.updateListName = function(){
+    $scope.loadingNewName = true;
+    var listUpdate = { listname: $scope.updateList.name };
     DashFactory.updateListName($scope.selectedList.listid, listUpdate)
       .success(function() {
-        $scope.decLoadCount();
+        $scope.updateList.name = "";
+        $scope.loadingNewName = false;
         $scope.populateLists();
       })
       .error(function(err) {
         console.log(err);
-        $scope.decLoadCount();
+        $scope.loadingNewName = false;
       });
   };
   $scope.removeList = function(id){
