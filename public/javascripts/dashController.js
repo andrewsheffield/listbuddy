@@ -393,6 +393,7 @@ app.controller('ListBuddyCont', function($scope, $location, $interval, DashFacto
 
   var refresh = function() {
     $scope.populatePendingLists();
+    $scope.populateLists();
     if ($scope.selectedList) {
       $scope.populateItems();
       $scope.populateListUsers();

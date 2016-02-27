@@ -1,6 +1,7 @@
 @charset "UTF-8";
 body {
-  -webkit-font-smoothing: subpixel-antialiased; }
+  -webkit-font-smoothing: subpixel-antialiased;
+  -webkit-transform: translateZ(0px); }
 
 .settings p {
   color: grey; }

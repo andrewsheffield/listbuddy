@@ -110,13 +110,16 @@ LIMIT 10;
 -- DELETE other user if user creator the list
 WITH x AS (
 	DELETE FROM userlists
-	WHERE userid=4 AND listid=1
+	WHERE userid=1 AND listid=1 AND EXISTS
+	(
+		SELECT * FROM lists WHERE id=1 AND creator=2
+	)
 	RETURNING userid, listid
 )
 INSERT INTO removeduserlists (userid, listid)
 SELECT * FROM x WHERE EXISTS
 (
-	SELECT * FROM lists WHERE listid=1 AND CREATOR=1
+	SELECT * FROM lists WHERE id=1 AND creator=2
 );
 
 -- Delete a pending user request from a managed list

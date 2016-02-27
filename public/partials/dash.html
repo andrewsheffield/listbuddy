@@ -442,14 +442,14 @@
       <div class="row">
         <div class="col-md-12">
 
-          <div class="user-panel panel panel-default" ng-repeat="user in listUsers" ng-if="userSearch.text==''">
+          <div class="user-panel panel panel-default" ng-repeat="luser in listUsers" ng-if="userSearch.text==''">
             <div class="panel-body">
               <div class="col-md-8">
-                <h4>{{ user.firstname + " " + user.lastname }}</h4>
+                <h4>{{ luser.firstname + " " + luser.lastname }}</h4>
               </div>
               <div class="col-md-4">
-                <div class="remove-item">
-                  <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="removeUser(user.userid)"></span>
+                <div class="remove-item" ng-if="user.id==selectedList.creator">
+                  <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="removeUser(luser.userid)"></span>
                 </div>
               </div>
             </div>
