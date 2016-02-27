@@ -232,11 +232,11 @@
               <div class="additem" ng-if="selectedList.type==2">
                 <span>New Item:</span>
                 <div class="input-group-sm">
-                  <input type="text" class="form-control" placeholder="Item name..." ng-model="newItem.name" />
+                  <input type="text" class="form-control" placeholder="Item name..." ng-model="newItem.name" ng-enter="addNewFinancial(newItem.name, newItem.amount)" />
                 </div>
                 <div class="input-group input-group-sm">
                   <span class="input-group-addon" id="sizing-addon2">$</span>
-                  <input type="text" class="form-control" placeholder="Amount example: 10.15" ng-model="newItem.amount " />
+                  <input type="text" class="form-control" placeholder="Amount example: 10.15" ng-model="newItem.amount " ng-enter="addNewFinancial(newItem.name, newItem.amount)"/>
                   <span class="input-group-btn">
                   <button class="btn btn-primary"  ng-click="addNewFinancial(newItem.name, newItem.amount)" ng-disabled="loadingNewItem || !newItem.name || !newItem.amount">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-hide="loadingNewItem"></span>
@@ -251,10 +251,10 @@
               <div class="additem" ng-if="selectedList.type==3">
                 <span>New Item: </span>
                 <div class="input-group-sm">
-                  <input type="text" class="form-control" placeholder="Item name..." ng-model="newItem.name" />
+                  <input type="text" class="form-control" placeholder="Item name..." ng-model="newItem.name" ng-enter="addNewGift(newItem.name, newItem.recipient)" />
                 </div>
                 <div class="input-group input-group-sm">
-                  <input type="text" class="form-control" placeholder="Recipient..." ng-model="newItem.recipient" />
+                  <input type="text" class="form-control" placeholder="Recipient..." ng-model="newItem.recipient" ng-enter="addNewGift(newItem.name, newItem.recipient)" />
                   <span class="input-group-btn">
                   <button class="btn btn-primary"  ng-click="addNewGift(newItem.name, newItem.recipient)" ng-disabled="loadingNewItem || !newItem.name || !newItem.recipient">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-hide="loadingNewItem"></span>
