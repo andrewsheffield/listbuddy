@@ -274,7 +274,7 @@ router.post('/api/v1/lists/:listid', function(req, res, next) {
 	var price = parseFloat(req.body.price);
 
 	if (!req.body.name) return res.status(401).json({message: "Name field is required"});
-	if(isNAN(price)) return res.status(401).json({ message: "Amount field must contain a proper number"});
+	if(isNaN(price)) return res.status(401).json({ message: "Amount field must contain a proper number"});
 
 	var userid = req.user.id; //Get from auth
 	var listid = req.params.listid;
