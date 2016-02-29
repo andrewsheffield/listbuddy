@@ -263,7 +263,7 @@ router.delete('/api/v1/lists/:listid/pendingusers/:pendinguserid', function(req,
 
 	dal.removePendingUser(pendinguserid, listid, userid, function(err, message) {
 		if (err) return res.status(500).json(err);
-		else res.json(message);
+		else return res.json(message);
 	});
 
 });
@@ -271,12 +271,15 @@ router.delete('/api/v1/lists/:listid/pendingusers/:pendinguserid', function(req,
 // Create New Item
 router.post('/api/v1/lists/:listid', function(req, res, next) {
 
+	var price = parseFloat(req.body.price);
+
 	if (!req.body.name) return res.status(401).json({message: "Name field is required"});
+	if(isNAN(price)) return res.status(401).json({ message: "Amount field must contain a proper number"});
 
 	var userid = req.user.id; //Get from auth
 	var listid = req.params.listid;
 	var name = req.body.name;
-	var price = (req.body.price) ? req.body.price : 0;
+	var price = (price) ? price: 0;
 	var recipient = (req.body.recipient) ? req.body.recipient : "";
 
 	dal.createNewItem(listid, name, price, recipient, userid, function(err, message) {
