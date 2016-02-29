@@ -42,7 +42,8 @@ body {
   .list-panel h4 {
     padding: 0px;
     margin: 0px;
-    color: white; }
+    color: white;
+    word-wrap: break-word; }
     .list-panel h4 small {
       color: black; }
   .list-panel .buttons {
@@ -88,7 +89,8 @@ body {
   background-color: pink;
   margin-bottom: 5px; }
   .item-panel .panel-body {
-    padding: 0px; }
+    padding: 0px;
+    word-wrap: break-word; }
   .item-panel .check-complete {
     margin-top: 10px; }
     .item-panel .check-complete input[type='checkbox'] {

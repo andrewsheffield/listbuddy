@@ -101,7 +101,6 @@ app.controller('ListBuddyCont', function($scope, $location, $interval, DashFacto
   };
   $scope.setSelectedList = function(list){
     $scope.selectedList = list;
-    console.log(list);
     $scope.populateItems();
     $scope.populateListUsers();
     $scope.populatePendingUsers();
