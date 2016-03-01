@@ -290,7 +290,7 @@
                   </div>
                   <div class="col-md-6">
                     <h5>{{ item.name }}<br />
-                    <small ng-if="selectedList.type==2">{{ '$' + (item.price | number:2) }}</small>
+                    <small ng-if="selectedList.type==2">{{ item.price | currency }}</small>
                     <small ng-if="selectedList.type==3">Recipient: {{ item.recipient }}</small>
                   </h5>
                   </div>
