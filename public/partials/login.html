@@ -68,7 +68,7 @@
       </div>
 
       <!--Sign up Tab-->
-      <div class="tab-pane fade" id="signup">
+      <div class="tab-pane fade" id="signup" ng-controller="SignupController as signup">
         <form class="form-signup" role="form" name="signupform" novalidate >
           <div class="input-group">
             <div class="input-group-addon">
@@ -103,10 +103,10 @@
           <div class="input-group">
             &nbsp;
           </div>
-          <button class="btn btn-success btn-lg btn-block" ng-click="attemptSignup()" ng-disabled="signupLoading || !signupform.$valid">
+          <button class="btn btn-success btn-lg btn-block" ng-click="signup.attemptSignup()" ng-disabled="signup.signupLoading || !signupform.$valid">
             <span class="glyphicon glyphicon-pencil" ng-if="!signupLoading"></span>
-            <span ng-if="!signupLoading">Sign Up</span>
-            <span class="glyphicon glyphicon-repeat spin" ng-if="signupLoading"></span>
+            <span ng-if="!signup.signupLoading">Sign Up</span>
+            <span class="glyphicon glyphicon-repeat spin" ng-if="signup.signupLoading"></span>
           </button>
         </form>
       </div>

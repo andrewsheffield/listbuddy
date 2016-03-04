@@ -7,20 +7,11 @@ app.factory('loginFactory', function($http){
   	return $http.post(baseURL+"user/login", data);
   };
 
-  factory.checkForAuth = function() {
-    var url = baseURL + "user/auth";
-    return $http.get(url);
-  }
-
-  factory.attemptSignup = function (data) {
-  	return $http.post(baseURL + "user/create", data);
-  }
-
   return factory;
 });
 
 
-app.controller('loginController', function($scope, $location, loginFactory) {
+app.controller('loginController', function($scope, $location, loginFactory, AuthService) {
 	
 	$scope.failedAuth = false;
 	$scope.failedSignup = false;
@@ -28,16 +19,13 @@ app.controller('loginController', function($scope, $location, loginFactory) {
 	$scope.loginData = {};
 	//$scope.signup = {};
 
-	$scope.checkForAuth = function() {
-    loginFactory.checkForAuth()
-      .success(function(user) {
-        $location.path('/dash');
-      })
-      .error(function(err) {
-        console.log(err);
-      });
-  }();
-
+  AuthService.checkForAuth()
+    .success(function(user) {
+      $location.path('/dash');
+    })
+    .error(function(err) {
+      console.log(err);
+    });
 
 	$scope.attemptLogin = function() {
 		$scope.loginLoading = true;
@@ -51,27 +39,6 @@ app.controller('loginController', function($scope, $location, loginFactory) {
 				$scope.loginLoading = false;
 				console.log(err);
 			});
-	}
-
-	$scope.attemptSignup = function() {
-		if ($scope.signup.password != $scope.signup.confirmPassword) {
-			$scope.passwordMismatch = true;
-		} else {
-			$scope.signupLoading = true;
-			$scope.passwordMismatch = false;
-
-			loginFactory.attemptSignup($scope.signup)
-				.success(function(user) {
-					$location.path('/dash');
-					$scope.signupLoading = false;
-				})
-				.error(function(err) {
-					console.log(err);
-					$scope.failedSignup = true;
-					$scope.signupLoading = false;
-				});
-		}
-		
 	}
 
 });
