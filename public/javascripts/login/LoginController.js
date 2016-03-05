@@ -8,20 +8,24 @@
 
 		var vm = this;
 
-		vm.failedAuth = false;
+		vm.failed = false;
 		vm.passwordMismatch = false;
 		vm.loginData = {};
 
 	  AuthService.checkForAuth()
-	    .success(function(user) {
-	      $location.path('/dash');
+	    .success(function(data) {
+	    	if (data.id) { //if data is user
+	    		$location.path('/dash');
+	    	} else {
+	    		console.log(data);
+	    	}
 	    })
 	    .error(function(err) {
 	      console.log(err);
 	    });
 
 		vm.attemptLogin = function() {
-			vm.loginLoading = true;
+			vm.loading = true;
 
 			var loginData = {
 				email: vm.email,
@@ -31,11 +35,11 @@
 			LoginService.attemptLogin(loginData)
 				.success(function(user) {
 					$location.path('/dash');
-					vm.loginLoading = false;
+					vm.loading = false;
 				})
 				.error(function(err) {
-					vm.failedAuth = true;
-					vm.loginLoading = false;
+					vm.failed = true;
+					vm.loading = false;
 					console.log(err);
 				});
 		}

@@ -36,12 +36,15 @@ app.controller('ListBuddyCont', function($scope, $location, $interval, DashFacto
   $scope.checkForAuth = function() {
     $scope.incLoadCount();
     DashFactory.checkForAuth()
-      .success(function(user) {
-        $scope.user = user;
-        $scope.populateLists();
-        $scope.populatePendingLists();
-        refreshInterval = $interval(refresh, 5000);
-        $scope.decLoadCount();
+      .success(function(data) {
+        if (data.id) {$scope.user = data;
+          $scope.populateLists();
+          $scope.populatePendingLists();
+          refreshInterval = $interval(refresh, 5000);
+          $scope.decLoadCount();
+        } else {
+          $location.path('/');
+        }
       })
       .error(function(err) {
         console.log(err);

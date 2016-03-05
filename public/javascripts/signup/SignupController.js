@@ -8,6 +8,10 @@
 		var vm = this;
 
 		vm.attemptSignup = function () {
+
+			vm.passwordMismatch = false;
+			vm.failed = false;
+
 			if (vm.password != vm.confirmPassword) {
 				vm.passwordMismatch = true;
 			} else {
@@ -28,7 +32,7 @@
 					})
 					.error(function(err) {
 						console.log(err);
-						vm.failedSignup = true;
+						vm.failed = true;
 						vm.signupLoading = false;
 					});
 			}

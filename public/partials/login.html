@@ -10,18 +10,6 @@
       <small>Simplify your collaborative lists.</small>
     </h1>
 
-    <div class="alert alert-danger" role="alert" ng-if="failedAuth">
-      <span>Incorrect credentials. Please try again.</span>
-    </div>
-
-    <div class="alert alert-danger" role="alert" ng-if="failedSignup">
-      <span>There already exists an account with that email.</span>
-    </div>
-
-    <div class="alert alert-danger" role="alert" ng-if="passwordMismatch">
-      <span>Your passwords did not match, try again.</span>
-    </div>
-
     <!--Tab buttons and styling-->
     <h3>
       <ul class="nav nav-tabs nav-justified" role="tablist">
@@ -41,6 +29,10 @@
       <!--Login Tab-->
       <div class="tab-pane fade in active" id="login" ng-controller="LoginController as login">
 
+        <div class="alert alert-danger" role="alert" ng-if="login.failed">
+          <span>Incorrect credentials. Please try again.</span>
+        </div>
+
         <form class="form-login" name="loginform" novalidate >
           <div class="input-group">
             <div class="input-group-addon">
@@ -59,16 +51,28 @@
               <input type="checkbox" value="true" name="rememberme" type="string" ng-model="rmCheck" /> Remember Me
             </label>
           </div>
-          <button class="btn btn-primary btn-lg btn-block btn-login" ng-click="login.attemptLogin()" ng-disabled="loginLoading || !loginform.$valid">
+          <div class="input-group">
+            &nbsp;
+          </div>
+          <button class="btn btn-primary btn-lg btn-block btn-login" ng-click="login.attemptLogin()" ng-disabled="login.loading || !loginform.$valid">
             <span class="glyphicon glyphicon-home" ng-if="!loginLoading"></span>
-            <span ng-if="!loginLoading">Login</span>
-            <span class="glyphicon glyphicon-repeat spin" ng-if="loginLoading"></span>
+            <span ng-if="!login.loading">Login</span>
+            <span class="glyphicon glyphicon-repeat spin" ng-if="login.loading"></span>
           </button>
         </form>
       </div>
 
       <!--Sign up Tab-->
       <div class="tab-pane fade" id="signup" ng-controller="SignupController as signup">
+
+        <div class="alert alert-danger" role="alert" ng-if="signup.failed">
+          <span>There already exists an account with that email.</span>
+        </div>
+
+        <div class="alert alert-danger" role="alert" ng-if="signup.passwordMismatch">
+          <span>Your passwords did not match, try again.</span>
+        </div>
+
         <form class="form-signup" role="form" name="signupform" novalidate >
           <div class="input-group">
             <div class="input-group-addon">

@@ -40,9 +40,13 @@ router.post('/api/v1/user/login', function(req, res, next) {
 	});
 });
 
+// Check if user is authenticated
 router.get('/api/v1/user/auth', function(req, res, next) {
-	if (req.user) res.json(req.user);
-	else res.status(401).json({message: "No user is authenticated"});
+	if (req.user) return res.json(req.user);
+	else return res.status(204).json({
+		message: "No user is authenticated",
+		authenticated: false
+	});
 });
 
 //Create a new user, returns user when created
