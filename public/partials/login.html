@@ -1,4 +1,4 @@
-<div ng-controller="loginController">
+<div>
 
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway:300">
 
@@ -39,27 +39,27 @@
     <div class="tab-content">
 
       <!--Login Tab-->
-      <div class="tab-pane fade in active" id="login">
+      <div class="tab-pane fade in active" id="login" ng-controller="LoginController as login">
 
         <form class="form-login" name="loginform" novalidate >
           <div class="input-group">
             <div class="input-group-addon">
               <span class="glyphicon glyphicon-envelope"></span>
             </div>
-            <input class="form-control" placeholder="Email Address" type="email" name="username" ng-model="loginData.email" required />
+            <input class="form-control" placeholder="Email Address" type="email" name="username" ng-model="login.email" required />
           </div>
           <div class="input-group">
             <div class="input-group-addon">
               <span class="glyphicon glyphicon-lock"></span>
             </div>
-            <input class="form-control" placeholder="Password" type="password" name="lpassword" ng-model="loginData.password" required />
+            <input class="form-control" placeholder="Password" type="password" name="lpassword" ng-model="login.password" required />
           </div>
           <div class="checkbox hidden">
             <label>
               <input type="checkbox" value="true" name="rememberme" type="string" ng-model="rmCheck" /> Remember Me
             </label>
           </div>
-          <button class="btn btn-primary btn-lg btn-block btn-login" ng-click="attemptLogin()" ng-disabled="loginLoading || !loginform.$valid">
+          <button class="btn btn-primary btn-lg btn-block btn-login" ng-click="login.attemptLogin()" ng-disabled="loginLoading || !loginform.$valid">
             <span class="glyphicon glyphicon-home" ng-if="!loginLoading"></span>
             <span ng-if="!loginLoading">Login</span>
             <span class="glyphicon glyphicon-repeat spin" ng-if="loginLoading"></span>

@@ -50,6 +50,8 @@ app.controller('ListBuddyCont', function($scope, $location, $interval, DashFacto
   };
   $scope.signout = function() {
     $scope.incLoadCount();
+    $interval.cancel(refreshInterval);
+    refreshInterval = undefined;
     DashFactory.signout()
       .success(function() {
         $location.path('/');
