@@ -4,8 +4,9 @@
 	angular.module('ListBuddyApp')
 		.controller('ItemController', ItemController);
 
-	function ItemController() {
+	function ItemController(ItemService) {
 		var vm = this;
+		vm.itemModel = ItemService.model;
 
 		vm.addNewSimple = function(newName){
 

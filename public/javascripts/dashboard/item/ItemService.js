@@ -4,20 +4,21 @@
 	angular.module('ListBuddyApp')
 		.service('ItemService', ItemService);
 
-	function ItemService() {
+	function ItemService($http, DashboardService) {
 		
-		var model = this;
+		var service = this;
+		var baseURL = '/api/v1/';
 
-		model.items = [];
-		model.newItem = {};
-	  model.loadingNewItem = false;
-	  model.completed = [];
-	  model.notCompleted = [];
-	  model.trashed = [];
-	  model.populateItems = function(next){
-	    DashFactory.getItems(model.selectedList.listid)
-	      .success(function(items) {
-	        model.decLoadCount();
+		service.model = {
+			items: [],
+			notCompleted: []
+		};
+
+		var model = service.model;
+
+	  service.populateItems = function(next){
+	    service.getItems(DashboardService.model.selectedList.listid)
+	      .success(function(items) { 
 	        model.items = items;
 	        if (next) next();
 	      })
@@ -26,6 +27,11 @@
 	        console.log(err);
 	      });
 	  };
+
+    service.getItems = function(listid) {
+	    var url = baseURL + "lists/" + listid + "/items";
+	    return $http.get(url);
+	  }
 		
 	}
 

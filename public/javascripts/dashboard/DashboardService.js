@@ -8,7 +8,7 @@
     var service = this;
 
     service.model = {
-    	selectedList: {},
+    	selectedList: null,
     	user: {}
     }
 

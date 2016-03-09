@@ -4,7 +4,7 @@
 	angular.module('ListBuddyApp')
 		.controller('ListController', ListController);
 
-	function ListController(ListService, DashboardService) {
+	function ListController(ListService, DashboardService, ItemService) {
 
 		//Variable and mosel declaration
 		var vm = this;
@@ -16,14 +16,9 @@
 
 
 		vm.setSelectedList = function(list) {
-			console.log(list);
 			vm.dashModel.selectedList = list;
+			ItemService.populateItems();
 		}
-	  
-	  vm.resetNewList = function() {
-	    vm.newList.name = "";
-	    vm.newList.type = 1;
-	  }
 
 	  vm.addNewList = function(newName, newType){
 
@@ -47,31 +42,14 @@
 	      }
 	  };
 
-	  vm.updateListName = function(){
-	    vm.loadingNewName = true;
-	    var listUpdate = { listname: vm.updateList.name };
-	    ListService.updateListName(vm.selectedList.listid, listUpdate)
-	      .success(function() {
-	        vm.updateList.name = "";
-	        vm.loadingNewName = false;
-	        vm.populateLists();
-	      })
-	      .error(function(err) {
-	        console.log(err);
-	        vm.loadingNewName = false;
-	      });
-	  };
 	  vm.removeList = function(id){
-	    vm.incLoadCount();
 	    ListService.deleteSelfFromList(id)
 	      .success(function() {
-	        vm.decLoadCount();
-	        vm.populateLists();
-	        vm.selectedList = null;
+	        ListService.populateLists();
+	        vm.dashModel.selectedList = null;
 	      })
 	      .error(function(err) {
 	        console.log(err);
-	        vm.decLoadCount();
 	      });
 	  };
 

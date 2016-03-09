@@ -191,14 +191,14 @@
     <!--End of List-->
 
     <!--Item col-->
-    <div class="col-md-4" ng-if="selectedList">
+    <div class="col-md-4" ng-if="dash.dbModel.selectedList" ng-controller="ItemController as itemCol">
 
       <!--Item Tabs-->
       <div class="row">
         <div class="col-md-12">
           <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
-              <a data-target="#items" aria-controls="items" role="tab" data-toggle="tab">Items <span class="badge"  ng-if="notCompleted.length>0">{{ notCompleted.length }}</span></a>
+              <a data-target="#items" aria-controls="items" role="tab" data-toggle="tab">Items <span class="badge"  ng-if="itemCol.itemModel.notCompleted.length>0">{{ itemCol.itemModel.notCompleted.length }}</span></a>
             </li>
             <li role="presentation">
               <a data-target="#completed" aria-controls="completed" role="tab" data-toggle="tab">Completed <span class="badge" ng-if="completed.length>0">{{ completed.length }}</span></a>
@@ -221,7 +221,7 @@
             <div class="col-md-12">
 
               <!--Add Simple Item-->
-              <div class="additem" ng-if="selectedList.type==1">
+              <div class="additem" ng-if="dash.dbModel.selectedList.type==1">
                 <span>New Item:</span>
                 <div class="input-group input-group-sm">
                   <input type="text" class="form-control" placeholder="Item name..." ng-model="newItem.name" ng-enter="addNewSimple(newItem.name)" />
@@ -236,7 +236,7 @@
               <!--End of add Simple item-->
 
               <!--Add Financial Item-->
-              <div class="additem" ng-if="selectedList.type==2">
+              <div class="additem" ng-if="dash.dbModel.selectedList.type==2">
                 <span>New Item:</span>
                 <div class="input-group-sm">
                   <input type="text" class="form-control" placeholder="Item name..." ng-model="newItem.name" ng-enter="addNewFinancial(newItem.name, newItem.amount)" />
@@ -255,7 +255,7 @@
               <!--End of add financial item-->
 
               <!--Add Gift Item-->
-              <div class="additem" ng-if="selectedList.type==3">
+              <div class="additem" ng-if="dash.dbModel.selectedList.type==3">
                 <span>New Item: </span>
                 <div class="input-group-sm">
                   <input type="text" class="form-control" placeholder="Item name..." ng-model="newItem.name" ng-enter="addNewGift(newItem.name, newItem.recipient)" />
@@ -279,7 +279,7 @@
           <div class="row">
             <div class="col-md-12">
 
-              <div class="panel panel-default" ng-if="notCompleted==0">
+              <div class="panel panel-default" ng-if="itemCol.itemModel.notCompleted==0">
                 <div class="panel-body">
                   <div class="col-md-12">
                     <span>This list contains no items.</span>
@@ -288,7 +288,7 @@
               </div>
 
               <!--Item-->
-              <div class="item-panel panel panel-default" ng-repeat="item in notCompleted = (items | filter:{completed:false, trashed:false})">
+              <div class="item-panel panel panel-default" ng-repeat="item in itemCol.itemModel.notCompleted = (itemCol.itemModel.items | filter:{completed:false, trashed:false})">
                 <div class="panel-body">
                   <div class="col-md-2">
                     <div class="check-complete">
@@ -525,7 +525,7 @@
 
     <!--No Selection prompt-->
     
-      <div class="col-md-8" ng-if="!selectedList">
+      <div class="col-md-8" ng-if="!dash.dbModel.selectedList">
         <div class="jumbotron">
           <h2>You have no stuffs or things!</h2>
           <p>Start by selecting a list to the left or creating a new list.</p>
