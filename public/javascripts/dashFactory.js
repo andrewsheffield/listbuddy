@@ -2,20 +2,20 @@ app.factory('DashFactory', function($http){
   var factory = {};
   var baseURL = '/api/v1/';
 
-  factory.checkForAuth = function() {
+  /*factory.checkForAuth = function() {
     var url = baseURL + "user/auth";
     return $http.get(url);
-  }
+  }*/
 
-  factory.signout = function() {
+  /*factory.signout = function() {
     var url = baseURL + "user/signout";
     return $http.get(url);
-  }
+  }*/
 
-  factory.getLists = function(){
+  /*factory.getLists = function(){
     var url = baseURL + "lists";
     return $http.get(url);
-  };
+  };*/
 
   factory.getPending = function() {
     var url = baseURL + "pending";
@@ -27,15 +27,15 @@ app.factory('DashFactory', function($http){
     return $http.get(url);
   }
 
-  factory.createList = function(newList) {
+  /*factory.createList = function(newList) {
     var url = baseURL + "lists";
     return $http.post(url, newList);
-  }
+  }*/
 
-  factory.deleteSelfFromList = function(listid) {
+ /*factory.deleteSelfFromList = function(listid) {
     var url = baseURL + "lists/" + listid;
     return $http.delete(url);
-  }
+  }*/
 
   factory.getUsers = function(listid) {
     var url = baseURL + "lists/" + listid + "/users";
@@ -62,10 +62,10 @@ app.factory('DashFactory', function($http){
     return $http.put(url);
   }
 
-  factory.updateListName = function(listid, listUpdate) {
+  /*factory.updateListName = function(listid, listUpdate) {
     var url = baseURL + "lists/" + listid;
     return $http.put(url, listUpdate);
-  }
+  }*/
 
   factory.searchUsers = function(searchString, listid) {
     var url = baseURL + "lists/" + listid + "/usersearch/" + searchString;

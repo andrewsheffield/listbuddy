@@ -14,6 +14,11 @@
 	    return $http.get(url);
 	  }
 
+	  service.signout = function() {
+	  	var url = baseURL + "user/signout";
+    	return $http.get(url);
+	  }
+
 	}
 
 }());
